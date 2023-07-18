@@ -84,13 +84,13 @@ ALTER TABLE HeroOrganization
     FOREIGN KEY fk_HeroOrganizationOrganization (OrganizationPK)
     REFERENCES `Organization` (OrganizationPK);
     
-USE HeroSightingsTest_JT;
-SELECT * FROM hero;
-SELECT * FROM heroorganization;
-SELECT * FROM location;
-SELECT * FROM `organization`;
-SELECT * FROM power;
-SELECT * FROM sighting;
+ USE HeroSightingsTest;
+ SELECT * FROM hero;
+ SELECT * FROM heroorganization;
+ SELECT * FROM location;
+ SELECT * FROM `organization`;
+ SELECT * FROM power;
+ SELECT * FROM sighting;
     
 
     
