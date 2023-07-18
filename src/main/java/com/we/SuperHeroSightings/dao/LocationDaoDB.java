@@ -69,7 +69,7 @@ public class LocationDaoDB implements LocationDao {
 
     @Override
     public void deleteLocationByID(int id) {
-        final String DELETE_SIGHTING = "DELETE FROM sightings WHERE LocationPK = ?";
+        final String DELETE_SIGHTING = "DELETE FROM sighting WHERE LocationPK = ?";
         jdbc.update(DELETE_SIGHTING, id);
 
         final String DELETE_LOCATION = "DELETE FROM location WHERE LocationPK = ?";
