@@ -44,7 +44,7 @@ public class PowerDaoDB implements PowerDao {
         jdbc.update(INSERT_POWER,
                 power.getName(),
                 power.getDescription());
-        
+
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         power.setId(newId);
         return power;
@@ -58,8 +58,9 @@ public class PowerDaoDB implements PowerDao {
 
     @Override
     public void deletePowerByID(int id) {
-        
-        final String DELETE_POWER = "DELETE FROM Power WHERE PowerPK = ?";
+
+        final String DELETE_POWER = "DELETE FROM Power WHERE PowerPk = ?";
+        jdbc.update("Update Hero set PowerPK = NULL where PowerPK = ?", id);
         jdbc.update(DELETE_POWER, id);
     }
 
