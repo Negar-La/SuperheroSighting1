@@ -1,6 +1,8 @@
 
 package com.we.SuperHeroSightings.entities;
 
+import com.we.SuperHeroSightings.dao.PowerDao;
+
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +21,16 @@ public class Hero {
     private String description;    
     private Power power;
     private List<Organization> organizations;
+
+    public Hero() {
+    }
+
+    public Hero(int id, String name, String description, Power power) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.power = power;
+    }
 
 
     public int getId() {
