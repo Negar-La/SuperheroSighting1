@@ -2,13 +2,17 @@ package com.we.SuperHeroSightings.dao;
 
 import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Location;
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +41,18 @@ public class LocationDaoDB implements LocationDao {
 
     @Override
     public Location addLocation(Location location) {
-        final String sql = "INSERT INTO Location(LocationName, Description, LocationAddress, Latitude, Longitude) VALUES(?,?, ?, ?, ?);";
-        jdbc.update(sql,
-                location.getName(),
-                location.getDescription(),
-                location.getAddress(),
-                location.getLatitude(),
-                location.getLongitude());
-        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-        location.setId(newId);
+        final String sql = "INSERT INTO location (LocationName, Description, LocationAddress, Latitude, Longitude) VALUES(?,?, ?, ?, ?);";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbc.update(con -> {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, location.getName());
+            ps.setString(2, location.getDescription());
+            ps.setString(3, location.getAddress());
+            ps.setString(4, location.getLatitude());
+            ps.setString(5, location.getLongitude());
+            return ps;
+        }, keyHolder);
+        location.setId(keyHolder.getKey().intValue());
         return location;
     }
 
@@ -79,7 +86,7 @@ public class LocationDaoDB implements LocationDao {
     @Override
     public List<Location> getLocationsByHero(Hero hero) {
         final String SELECT_LOCATIONS_BY_HERO = "SELECT * FROM location l" +
-                "JOIN sightings s ON l.LocationPK = s.LocationPK WHERE s.HeroPK = ?";
+                "JOIN sighting s ON l.LocationPK = s.LocationPK WHERE s.HeroPK = ?";
         return jdbc.query(SELECT_LOCATIONS_BY_HERO, new LocationMapper(), hero.getId());
     }
 
