@@ -42,7 +42,7 @@ public class OrganizationDaoDB implements OrganizationDao {
         final String SELECT_MEMBERS_FOR_ORGANIZATION = "SELECT h.* FROM hero h "
                 + "INNER JOIN heroorganization ho ON ho.HeroPK = h.HeroPK"
                 + "WHERE ho.OrganizationPK = ?";
-        return jdbc.query(SELECT_MEMBERS_FOR_ORGANIZATION, new HeroMapper(), id);
+        return jdbc.query(SELECT_MEMBERS_FOR_ORGANIZATION, new HeroDaoDB.HeroMapper(), id);
     }
 
     @Override
