@@ -6,6 +6,8 @@ import com.we.SuperHeroSightings.entities.Location;
 import com.we.SuperHeroSightings.entities.Organization;
 import com.we.SuperHeroSightings.entities.Power;
 import com.we.SuperHeroSightings.entities.Sighting;
+
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,8 +39,8 @@ public class SightingDaoDBTest {
     
     @Autowired
     OrganizationDao organizationDao;
-    
-    LocalDateTime date = LocalDateTime.now();
+
+    Date date = Date.valueOf(LocalDate.now());
 
     
     public SightingDaoDBTest() {
@@ -304,7 +306,7 @@ public class SightingDaoDBTest {
      */
     @Test
     public void testGetSightingsByDate() {
-        LocalDateTime date = LocalDateTime.parse("2022-06-30T12:01:00");   
+        Date date = Date.valueOf(String.valueOf(LocalDateTime.parse("2022-06-30T12:01:00")));
         
         Power power = new Power();
         power.setName("Super Powers");
