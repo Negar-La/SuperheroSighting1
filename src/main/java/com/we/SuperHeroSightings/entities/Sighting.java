@@ -1,6 +1,7 @@
 
 package com.we.SuperHeroSightings.entities;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
@@ -16,7 +17,7 @@ public class Sighting {
     
     private int id;
     private String description;  
-    private LocalDateTime date;
+    private Date date;
     private Hero hero;
     private Location location;
 
@@ -37,11 +38,11 @@ public class Sighting {
         this.description = description;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

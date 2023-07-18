@@ -6,6 +6,8 @@ import com.we.SuperHeroSightings.entities.Location;
 import com.we.SuperHeroSightings.entities.Organization;
 import com.we.SuperHeroSightings.entities.Power;
 import com.we.SuperHeroSightings.entities.Sighting;
+
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class LocationDaoDBTest {
     @Autowired
     OrganizationDao organizationDao;
     
-    LocalDateTime date = LocalDateTime.now();
+    Date date = Date.valueOf(String.valueOf(LocalDateTime.now()));
     
     
     public LocationDaoDBTest() {
