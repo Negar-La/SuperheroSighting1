@@ -1,4 +1,3 @@
-
 package com.we.SuperHeroSightings.dao;
 
 import com.we.SuperHeroSightings.entities.Power;
@@ -10,7 +9,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -18,34 +16,64 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class PowerDaoDB implements PowerDao {
-    
+
     @Autowired
     JdbcTemplate jdbc;
 
     @Override
     public Power getPowerByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+
+            final String GET_POWER_BY_ID = "SELECT * FROM spower WHERE power_id = ?";
+            return jdbc.queryForObject(GET_POWER_BY_ID, new PowerMapper(), id);
+        } catch (DataAccessException ex) {
+            return null;
+        }
     }
 
     @Override
     public List<Power> getAllPowers() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String sql = "SELECT * FROM Power;";
+        return jdbc.query(sql, new PowerMapper());
     }
 
     @Override
     public Power addPower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final String INSERT_POWER = "INSERT INTO Power (Power, Description) VALUES (?,?)";
+
+        jdbc.update(INSERT_POWER,
+                power.getName(),
+                power.getDescription());
+        
+        int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+        power.setId(newId);
+        return power;
     }
 
     @Override
     public void updatePower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final String UPDATE_POWER = "UPDATE Power SET Power = ?, description =? WHERE PowerPK = ?";
+        jdbc.update(UPDATE_POWER, power.getName(), power.getDescription(), power.getId());
     }
 
     @Override
     public void deletePowerByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        final String DELETE_POWER = "DELETE FROM Power WHERE PowerPK = ?";
+        jdbc.update(DELETE_POWER, id);
     }
-    
+
+    public class PowerMapper implements RowMapper<Power> {
+
+        @Override
+        public Power mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Power power = new Power();
+            power.setId(rs.getInt("PowerPK"));
+            power.setName(rs.getString("Power"));
+            power.setDescription(rs.getString("Description"));
+
+            return power;
+        }
+
+    }
 
 }
