@@ -1,4 +1,3 @@
-
 package com.we.SuperHeroSightings.dao;
 
 import com.we.SuperHeroSightings.entities.Hero;
@@ -9,12 +8,10 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -22,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class SightingDaoDB implements SightingDao {
-    
+
     @Autowired
     JdbcTemplate jdbc;
 
@@ -47,7 +44,7 @@ public class SightingDaoDB implements SightingDao {
             PreparedStatement statement = conn.prepareStatement(
                     sql,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setDate(1, sighting.getDate());
+            statement.setObject(1, sighting.getDate());
             statement.setString(2, sighting.getDescription());
             statement.setInt(3, sighting.getHero().getId());
             statement.setInt(4, sighting.getLocation().getId());
@@ -67,7 +64,7 @@ public class SightingDaoDB implements SightingDao {
                 sighting.getHero().getId(),
                 sighting.getLocation().getId(),
                 sighting.getId()
-                );
+        );
     }
 
     @Override
@@ -77,7 +74,7 @@ public class SightingDaoDB implements SightingDao {
     }
 
     @Override
-    public List<Sighting> getSightingsByDate(Date date) {
+    public List<Sighting> getSightingsByDate(LocalDateTime date) {
         final String sql = "SELECT SightingDate, Description, HeroPK, LocationPK FROM sightings WHERE date = ?;";
         return jdbc.query(sql, new SightingMapper(), date);
     }
@@ -102,17 +99,13 @@ public class SightingDaoDB implements SightingDao {
 
             Sighting sighting = new Sighting();
 
-            int superId = rs.getInt("superherovillain_id");
-            int locationId = rs.getInt("location_id");
-            sighting.setId(rs.getInt("sighting_id"));
-            sighting.setHero(superDao.getHeroByID(superId));
-            sighting.setLocation(locationDao.getLocationByID(locationId));
-            sighting.setDate(rs.getDate("date"));
-
+            sighting.setId(rs.getInt("SightingPK"));
+            sighting.setDate(rs.getTimestamp("SightingDate").toLocalDateTime());
+            sighting.setDescription(rs.getString("Description"));
+            sighting.setHero(superDao.getHeroByID(rs.getInt("HeroPK")));
+            sighting.setLocation(locationDao.getLocationByID(rs.getInt("LocationPK")));
 
             return sighting;
         }
     }
-
-    
 }
