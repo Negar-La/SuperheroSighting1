@@ -24,7 +24,7 @@ public class PowerDaoDB implements PowerDao {
     public Power getPowerByID(int id) {
         try {
 
-            final String GET_POWER_BY_ID = "SELECT * FROM spower WHERE power_id = ?";
+            final String GET_POWER_BY_ID = "SELECT * FROM Power WHERE PowerPK = ?";
             return jdbc.queryForObject(GET_POWER_BY_ID, new PowerMapper(), id);
         } catch (DataAccessException ex) {
             return null;
@@ -52,12 +52,13 @@ public class PowerDaoDB implements PowerDao {
 
     @Override
     public void updatePower(Power power) {
-        final String UPDATE_POWER = "UPDATE Power SET Power = ?, description =? WHERE PowerPK = ?";
+        final String UPDATE_POWER = "UPDATE Power SET Power = ?, Description =? WHERE PowerPK = ?";
         jdbc.update(UPDATE_POWER, power.getName(), power.getDescription(), power.getId());
     }
 
     @Override
     public void deletePowerByID(int id) {
+        
         final String DELETE_POWER = "DELETE FROM Power WHERE PowerPK = ?";
         jdbc.update(DELETE_POWER, id);
     }
