@@ -87,7 +87,8 @@ public class LocationDaoDB implements LocationDao {
     public List<Location> getLocationsByHero(Hero hero) {
         final String SELECT_LOCATIONS_BY_HERO = "SELECT * FROM location l" +
                 "JOIN sighting s ON l.LocationPK = s.LocationPK WHERE s.HeroPK = ?";
-        return jdbc.query(SELECT_LOCATIONS_BY_HERO, new LocationMapper(), hero.getId());
+        List<Location> locations = jdbc.query(SELECT_LOCATIONS_BY_HERO, new LocationMapper(), hero.getId());
+        return locations;
     }
 
     class LocationMapper implements RowMapper<Location> {
@@ -100,6 +101,7 @@ public class LocationDaoDB implements LocationDao {
             location.setAddress(rs.getString("LocationAddress"));
             location.setLatitude(rs.getString("Latitude"));
             location.setLongitude(rs.getString("Longitude"));
+            location.setId(rs.getInt("LocationPK"));
             return location;
         }
     }

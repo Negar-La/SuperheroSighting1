@@ -21,7 +21,7 @@ public interface SightingDao {
     void updateSighting(Sighting sighting);
     void deleteSightingByID(int id);
     
-    List<Sighting> getSightingsByDate(Date date);
+    List<Sighting> getSightingsByDate(LocalDateTime date);
     List<Sighting> getSightingsByLocation(Location location);
     List<Sighting> getSightingsByHero(Hero hero);
     
