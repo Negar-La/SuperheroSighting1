@@ -40,7 +40,7 @@ public class OrganizationDaoDB implements OrganizationDao {
     //     create a helper method to get SuperHeros for an organization:
     private List<Hero> getMembersForOrganization(int id){
         final String SELECT_MEMBERS_FOR_ORGANIZATION = "SELECT h.* FROM hero h "
-                + "INNER JOIN heroorganization ho ON ho.HeroPK = h.HeroPK"
+                + "INNER JOIN heroorganization ho ON ho.HeroPK = h.HeroPK "
                 + "WHERE ho.OrganizationPK = ?";
         return jdbc.query(SELECT_MEMBERS_FOR_ORGANIZATION, new HeroDaoDB.HeroMapper(), id);
     }
