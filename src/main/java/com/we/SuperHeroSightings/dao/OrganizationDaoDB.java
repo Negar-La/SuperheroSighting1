@@ -75,7 +75,9 @@ public class OrganizationDaoDB implements OrganizationDao {
         int newId = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
         organization.setId(newId);
 
-        insertOrganizationSuperHero(organization);
+        if (organization != null && organization.getMembers() != null) {
+            insertOrganizationSuperHero(organization);
+        }
         return organization;
     }
 
@@ -83,8 +85,10 @@ public class OrganizationDaoDB implements OrganizationDao {
 
         final String INSERT_MEMBER = "INSERT INTO heroorganization (HeroPK, OrganizationPK) "
                 + "VALUES(?,?)";
-        for (Hero member : organization.getMembers()){
-            jdbc.update(INSERT_MEMBER, organization.getId(), member.getId());
+        if (organization != null && organization.getMembers() != null) {
+            for (Hero member : organization.getMembers()) {
+                jdbc.update(INSERT_MEMBER, organization.getId(), member.getId());
+            }
         }
     }
 
