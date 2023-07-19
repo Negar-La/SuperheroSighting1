@@ -87,7 +87,6 @@ public class HeroDaoDB implements HeroDao {
             return ps;
         }, keyHolder);
         hero.setId(keyHolder.getKey().intValue());
-        //hero.setOrganizations(getOrganizationsForHero(hero.getId()));
         insertHeroOrganization(hero);
         return hero;
     }
@@ -160,15 +159,11 @@ public class HeroDaoDB implements HeroDao {
         //helper class that maps the result set from the database to Hero objects
         //maps the retrieved data to the appropriate properties of the Hero DTO class 
         public Hero mapRow(ResultSet rs, int rowNum) throws SQLException {
-            PowerDao powerDao = new PowerDaoDB();
             Hero hero = new Hero();
             hero.setId(rs.getInt("HeroPK"));
             hero.setName(rs.getString("HeroName"));
             hero.setType(rs.getString("Type"));
             hero.setDescription(rs.getString("Description"));
-//            int powerId = rs.getInt("PowerPK");
-//            Power power = powerDao.getPowerByID(powerId);
-//            hero.setPower(power);
             return hero;
         }
     }

@@ -64,8 +64,6 @@ public class SightingDaoDB implements SightingDao {
             statement.setInt(4, sighting.getLocation().getId());
             return statement;
         }, keyHolder);
-//        insertHero(sighting);
-//        insertLocation(sighting);
 
         sighting.setId(keyHolder.getKey().intValue());
         return sighting;
@@ -137,16 +135,10 @@ public class SightingDaoDB implements SightingDao {
     public static final class SightingMapper implements RowMapper<Sighting> {
         @Override
         public Sighting mapRow(ResultSet rs, int index) throws SQLException {
-//            HeroDao superDao = new HeroDaoDB();
-//            LocationDao locationDao = new LocationDaoDB();
             Sighting sighting = new Sighting();
-
             sighting.setId(rs.getInt("SightingPK"));
             sighting.setDate(rs.getTimestamp("SightingDate").toLocalDateTime());
             sighting.setDescription(rs.getString("Description"));
-//            sighting.setHero(superDao.getHeroByID(rs.getInt("HeroPK")));
-//            sighting.setLocation(locationDao.getLocationByID(rs.getInt("LocationPK")));
-
             return sighting;
         }
     }
