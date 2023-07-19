@@ -42,7 +42,7 @@ public class HeroDaoDBTest {
     @Autowired
     OrganizationDao organizationDao;
     
-    Date date = Date.valueOf(LocalDate.now());
+    LocalDateTime date = LocalDateTime.now();
     
     public HeroDaoDBTest() {
     }
