@@ -23,7 +23,6 @@ public class PowerDaoDB implements PowerDao {
     @Override
     public Power getPowerByID(int id) {
         try {
-
             final String GET_POWER_BY_ID = "SELECT * FROM Power WHERE PowerPK = ?";
             return jdbc.queryForObject(GET_POWER_BY_ID, new PowerMapper(), id);
         } catch (DataAccessException ex) {
@@ -39,7 +38,7 @@ public class PowerDaoDB implements PowerDao {
 
     @Override
     public Power addPower(Power power) {
-        final String INSERT_POWER = "INSERT INTO Power (Power, Description) VALUES (?,?)";
+        final String INSERT_POWER = "INSERT INTO power (Power, Description) VALUES (?,?)";
 
         jdbc.update(INSERT_POWER,
                 power.getName(),
@@ -58,13 +57,12 @@ public class PowerDaoDB implements PowerDao {
 
     @Override
     public void deletePowerByID(int id) {
-
+        jdbc.update("UPDATE hero set powerPK = null where powerPK = ?", id);
         final String DELETE_POWER = "DELETE FROM Power WHERE PowerPk = ?";
-        jdbc.update("Update Hero set PowerPK = NULL where PowerPK = ?", id);
         jdbc.update(DELETE_POWER, id);
     }
 
-    public class PowerMapper implements RowMapper<Power> {
+    public static class PowerMapper implements RowMapper<Power> {
 
         @Override
         public Power mapRow(ResultSet rs, int rowNum) throws SQLException {

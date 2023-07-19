@@ -34,8 +34,26 @@ public class HeroDaoDB implements HeroDao {
     //gets a hero from the database based on the provided ID
     //connects to the "hero" table and retrieves the hero's information including its associated power
     public Hero getHeroByID(int id) {
-        String sql = "SELECT * FROM hero WHERE HeroPK = ?";
-        return jdbc.queryForObject(sql, new HeroMapper(), id);
+        try {
+            String sql = "SELECT * FROM hero WHERE HeroPK = ?";
+            Hero hero = jdbc.queryForObject(sql, new HeroMapper(), id);
+            Power power = setPowerForHero(hero);
+            hero.setPower(power);
+            hero.setOrganizations(getOrganizationsForHero(hero.getId()));
+            return hero;
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
+
+    private Power setPowerForHero(Hero hero) {
+        try {
+            String sql = "SELECT * FROM power JOIN hero ON hero.PowerPK = power.PowerPK WHERE hero.HeroPK = ?";
+            Power power = jdbc.queryForObject(sql, new PowerDaoDB.PowerMapper(), hero.getId());
+            return power;
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -43,10 +61,18 @@ public class HeroDaoDB implements HeroDao {
     //connects to the "hero" table and fetches all the hero records present in the table
     public List<Hero> getAllHeros() {
         String sql = "SELECT * FROM hero";
-        return jdbc.query(sql, new HeroMapper());
+        List<Hero> heroes = jdbc.query(sql, new HeroMapper());
+        Power power;
+        for (Hero hero: heroes) {
+            power = setPowerForHero(hero);
+            hero.setPower(power);
+            hero.setOrganizations(getOrganizationsForHero(hero.getId()));
+        }
+        return heroes;
     }
 
     @Override
+    @Transactional
     //adds a new hero to the database
     //connects to the "hero" table and inserts a new record with the new hero's information + power
     public Hero addHero(Hero hero) {
@@ -61,7 +87,22 @@ public class HeroDaoDB implements HeroDao {
             return ps;
         }, keyHolder);
         hero.setId(keyHolder.getKey().intValue());
+        //hero.setOrganizations(getOrganizationsForHero(hero.getId()));
+        insertHeroOrganization(hero);
         return hero;
+    }
+    private void insertHeroOrganization(Hero hero){
+        for (Organization organization : hero.getOrganizations()){
+            jdbc.update("INSERT INTO heroorganization(heroPK, organizationPK) VALUES (?, ?);",
+                    hero.getId(),
+                    organization.getId());
+        }
+    }
+
+
+    private List<Organization> getOrganizationsForHero(int id){
+        return jdbc.query("SELECT o.* FROM organization o INNER JOIN heroorganization ho ON o.OrganizationPK = ho.OrganizationPK INNER JOIN hero h ON ho.HeroPK = h.HeroPK WHERE ho.HeroPK = ?"
+                , new OrganizationDaoDB.OrganizationMapper(), id);
     }
 
     @Override
@@ -76,7 +117,11 @@ public class HeroDaoDB implements HeroDao {
     //deletes a hero from the database based on the provided ID
     //connects to the "hero" table and removes the record associated with the provided ID
     public void deleteHeroByID(int id) {
-        String sql = "DELETE FROM hero WHERE HeroPK = ?";
+        String sql1 = "DELETE FROM sighting WHERE HeroPK = ?;";
+        String sql2 = "DELETE FROM heroorganization WHERE HeroPK = ?;";
+        String sql = "DELETE FROM hero WHERE HeroPK = ?;";
+        jdbc.update(sql1, id);
+        jdbc.update(sql2, id);
         jdbc.update(sql, id);
     }
 
@@ -85,7 +130,14 @@ public class HeroDaoDB implements HeroDao {
     //connects to the "hero" and "sighting" tables, joins them together and gets the heroes that have sightings associated with the given location
     public List<Hero> getHerosByLocation(Location location) {
         String sql = "SELECT h.* FROM hero h JOIN sighting s ON h.HeroPK = s.HeroPK WHERE s.LocationPK = ?";
-        return jdbc.query(sql, new HeroMapper(), location.getId());
+        List<Hero> heroes = jdbc.query(sql, new HeroMapper(), location.getId());
+        Power power;
+        for (Hero hero: heroes) {
+            power = setPowerForHero(hero);
+            hero.setPower(power);
+            hero.setOrganizations(getOrganizationsForHero(hero.getId()));
+        }
+        return heroes;
     }
 
     @Override
@@ -93,7 +145,14 @@ public class HeroDaoDB implements HeroDao {
     //connects to the "hero" and "heroorganization" tables + joins them together + retrieves the heroes that are associated with the given organization
     public List<Hero> getHerosByOrganization(Organization organization) {
         String sql = "SELECT h.* FROM hero h JOIN heroorganization ho ON h.HeroPK = ho.HeroPK WHERE ho.OrganizationPK = ?";
-        return jdbc.query(sql, new HeroMapper(), organization.getId());
+        List<Hero> heroes = jdbc.query(sql, new HeroMapper(), organization.getId());
+        Power power;
+        for (Hero hero: heroes) {
+            power = setPowerForHero(hero);
+            hero.setPower(power);
+            hero.setOrganizations(getOrganizationsForHero(hero.getId()));
+        }
+        return heroes;
     }
 
     public static class HeroMapper implements RowMapper<Hero> {
@@ -107,14 +166,10 @@ public class HeroDaoDB implements HeroDao {
             hero.setName(rs.getString("HeroName"));
             hero.setType(rs.getString("Type"));
             hero.setDescription(rs.getString("Description"));
-            int powerId = rs.getInt("PowerPK");
-            Power power = powerDao.getPowerByID(powerId);
-            hero.setPower(power);
+//            int powerId = rs.getInt("PowerPK");
+//            Power power = powerDao.getPowerByID(powerId);
+//            hero.setPower(power);
             return hero;
         }
     }
-    
-   
-
-    
 }
