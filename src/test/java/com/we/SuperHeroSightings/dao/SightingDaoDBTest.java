@@ -40,7 +40,7 @@ public class SightingDaoDBTest {
     @Autowired
     OrganizationDao organizationDao;
 
-    Date date = Date.valueOf(LocalDate.now());
+    LocalDateTime date = LocalDateTime.now();
 
     
     public SightingDaoDBTest() {
@@ -306,7 +306,7 @@ public class SightingDaoDBTest {
      */
     @Test
     public void testGetSightingsByDate() {
-        Date date = Date.valueOf(LocalDate.parse("2022-06-30"));
+        LocalDateTime date = LocalDateTime.parse("2022-06-30");
         
         Power power = new Power();
         power.setName("Super Powers");

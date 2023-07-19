@@ -40,7 +40,7 @@ public class LocationDaoDBTest {
     @Autowired
     OrganizationDao organizationDao;
     
-    Date date = Date.valueOf(LocalDate.now());
+    LocalDateTime date = LocalDateTime.now();
     
     
     public LocationDaoDBTest() {
