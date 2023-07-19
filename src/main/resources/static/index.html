@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Super Hero Sighting</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h1>Hero Education and Relationship Organization (HERO)</h1>
+        </div>
+    </div>
+    <div class="row m-4 border border-dark">
+        <div class="col text-center m-3">
+            <a href="teachers" class="btn btn-outline-primary btn-lg">Heroes</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="students" class="btn btn-outline-primary btn-lg">Powers</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="courses" class="btn btn-outline-primary btn-lg">Locations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="courses" class="btn btn-outline-primary btn-lg">Organizations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="courses" class="btn btn-outline-primary btn-lg">Sightings</a>
+        </div>
+    </div>
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h4>Welcome to Super Hero & Villain Sightings.</h4>
+        </div>
+    </div>
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h4> Last 10 Sightings </h4>
+            <div class="row m-4 border border-dark">
+                <div class="col text-center m-3">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Location Name</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="Location : ${locations}">
+                            <td th:text="${teacher.id}">Location Name</td>
+                            <td th:text="${teacher.firstName}">Location Description</td>
+                            <td th:text="${teacher.lastName}">Location Details</td>
+                            <td><a href="#" th:href="@{/updateLocation(id=${location.id})}">Edit</a></td>
+                            <td><a href="#" th:href="@{/deleteLocationById(id=${location.id})}">Delete</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>;
