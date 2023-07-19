@@ -76,11 +76,17 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="organization" class="col-3 col-form-label">
+                    <label for="organizations" class="col-3 col-form-label">
                         Organization</label>
                     <div class="col-9">
                         <input type="text" name="organization"
-                               id="organization" class="form-control"/>
+                               id="organizations" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="heroPhoto" class="col-3 col-form-label">Photo</label>
+                    <div class="col-9">
+                        <input type="file" name="heroPhoto" id="heroPhoto" accept="image/*" class="form-control-file">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Add Hero</button>
@@ -101,11 +107,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="teacher : ${teachers}">
+                <tr th:each="hero : ${heroes}">
                     <td th:text="${hero.id}">Hero/Villain</td>
                     <td th:text="${hero.type}">Type</td>
                     <td th:text="${hero.description}">Description</td>
-                    <td th:text="${teacher.power}">Power</td>
+                    <td th:text="${hero.power}">Power</td>
                     <td><a href="#" th:href="@{/editHero(id=${hero.id})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteHero(id=${hero.id})}">Delete</a></td>
                 </tr>
