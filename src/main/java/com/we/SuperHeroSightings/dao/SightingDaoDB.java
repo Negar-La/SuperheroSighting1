@@ -102,13 +102,11 @@ public class SightingDaoDB implements SightingDao {
 
             Sighting sighting = new Sighting();
 
-            int superId = rs.getInt("superherovillain_id");
-            int locationId = rs.getInt("location_id");
-            sighting.setId(rs.getInt("sighting_id"));
-            sighting.setHero(superDao.getHeroByID(superId));
-            sighting.setLocation(locationDao.getLocationByID(locationId));
-            sighting.setDate(rs.getDate("date"));
-
+            sighting.setId(rs.getInt("SightingPK"));
+            sighting.setDate(rs.getTimestamp("SightingDate").toLocalDateTime());
+            sighting.setDescription(rs.getString("Description"));
+            sighting.setHero(superDao.getHeroByID(rs.getInt("HeroPK")));
+            sighting.setLocation(locationDao.getLocationByID(rs.getInt("LocationPK")));
 
             return sighting;
         }
