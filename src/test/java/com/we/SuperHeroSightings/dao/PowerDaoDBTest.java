@@ -154,8 +154,8 @@ public class PowerDaoDBTest {
         deleted = powerDao.getPowerByID(power.getId());
         assertNull(deleted);
 
-        hero = heroDao.getHeroByID(hero.getId());
-        assertNull(hero.getPower());
+        Hero hero1 = heroDao.getHeroByID(hero.getId());
+        assertNull(hero1.getPower());
     }
     
 }

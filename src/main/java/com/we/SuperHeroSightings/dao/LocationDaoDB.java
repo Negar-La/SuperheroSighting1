@@ -16,6 +16,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
+
 /**
  *
  * @author jtriolo
@@ -28,9 +30,13 @@ public class LocationDaoDB implements LocationDao {
 
     @Override
     public Location getLocationByID(int id) {
-        final String sql = "SELECT * FROM location WHERE LocationPK = ?;";
-        Location location = jdbc.queryForObject(sql, new LocationMapper(), id);
-        return location;
+        try {
+            final String sql = "SELECT * FROM location WHERE LocationPK = ?;";
+            Location location = jdbc.queryForObject(sql, new LocationMapper(), id);
+            return location;
+        } catch (DataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -85,13 +91,13 @@ public class LocationDaoDB implements LocationDao {
 
     @Override
     public List<Location> getLocationsByHero(Hero hero) {
-        final String SELECT_LOCATIONS_BY_HERO = "SELECT * FROM location l" +
+        final String SELECT_LOCATIONS_BY_HERO = "SELECT * FROM location l " +
                 "JOIN sighting s ON l.LocationPK = s.LocationPK WHERE s.HeroPK = ?";
         List<Location> locations = jdbc.query(SELECT_LOCATIONS_BY_HERO, new LocationMapper(), hero.getId());
         return locations;
     }
 
-    class LocationMapper implements RowMapper<Location> {
+    public static class LocationMapper implements RowMapper<Location> {
         @Override
         public Location mapRow(ResultSet rs, int rowNum) throws SQLException {
             Location location = new Location();

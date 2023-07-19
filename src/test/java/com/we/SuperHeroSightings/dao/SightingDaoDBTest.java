@@ -306,7 +306,7 @@ public class SightingDaoDBTest {
      */
     @Test
     public void testGetSightingsByDate() {
-        LocalDateTime date = LocalDateTime.parse("2022-06-30");
+        LocalDateTime date = LocalDateTime.parse("2022-06-30T12:01:00");
         
         Power power = new Power();
         power.setName("Super Powers");
