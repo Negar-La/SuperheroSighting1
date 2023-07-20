@@ -28,61 +28,53 @@ public class SightingController {
     @GetMapping("sightings")
     public String displaySightings(Model model) {
         List<Sighting> sightings = sightingDao.getAllSightings();
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
+
         model.addAttribute("sightings", sightings);
+        model.addAttribute("heroes", heroes);
+        model.addAttribute("locations", locations);
+
         return "sightings";
     }
 
     //need to make sure parse is not causing errors for integer and date
     @PostMapping("addSighting")
-    public String addSighting(HttpServletRequest request) {
-        String date = request.getParameter("date");
-        LocalDateTime parsedDate = LocalDateTime.parse(date); //could cause error
-        String description = request.getParameter("description");
-        String hero = request.getParameter("heroId");
-        String location = request.getParameter("locationId");
-        int heroId = Integer.parseInt(hero); //could cause error
-        int locationId = Integer.parseInt(location); // could cause error
+    public String addSighting(Sighting sighting, HttpServletRequest request) {
+        String heroId = request.getParameter("heroId");
+        String locationId = request.getParameter("locationId");
 
-        Hero heroObject = heroDao.getHeroByID(heroId);
-        Location locationObject = locationDao.getLocationByID(locationId);
-
-        Sighting sighting = new Sighting();
-        sighting.setDate(parsedDate);
-        sighting.setDescription(description);
-        sighting.setHero(heroObject);
-        sighting.setLocation(locationObject);
-
-        sightingDao.addSighting(sighting);
+        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
 
         return "redirect:/sightings";
     }
 
     @GetMapping("deleteSighting")
-    public String deleteSighting(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String deleteSighting(Integer id) {
         sightingDao.deleteSightingByID(id);
 
         return "redirect:/sightings";
     }
 
     @GetMapping("editSighting")
-    public String editSighting(HttpServletRequest request, Model model) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String editSighting(Integer id, Model model) {
         Sighting sighting = sightingDao.getSightingByID(id);
-
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
         model.addAttribute("sighting", sighting);
+        model.addAttribute("heroes", heroes);
+        model.addAttribute("locations", locations);
         return "editSighting";
     }
 
     @PostMapping("editSighting")
-    public String performEditSighting(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
-        Sighting sighting = sightingDao.getSightingByID(id);
+    public String performEditSighting(Sighting sighting, HttpServletRequest request) {
+        String heroId = request.getParameter("heroId");
+        String locationId = request.getParameter("locationId");
 
-        sighting.setDate(LocalDateTime.parse(request.getParameter("date")));
-        sighting.setDescription(request.getParameter("description"));
-        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(request.getParameter("heroId"))));
-        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(request.getParameter("locationId"))));
+        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
 
         sightingDao.updateSighting(sighting);
 
