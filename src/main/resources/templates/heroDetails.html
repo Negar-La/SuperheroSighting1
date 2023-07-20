@@ -36,57 +36,44 @@
     </div>
   </div>
   <div class="row m-4 border border-dark">
-    <div class="col-3 text-center m-3">
-      <span class="h3">Edit Hero</span>
+    <div class="col-6 text-right"><strong>ID</strong></div>
+    <div class="col-6 text-left">
+      <span th:text="${hero.id}">display id</span>
     </div>
-    <div class="col-7 text-center m-3">
-      <form action="editHero" method="POST">
-        <div class="form-group row">
-          <label for="heroName" class="col-3 col-form-label">
-            Hero/Villain</label>
-          <div class="col-9">
-            <input type="text" name="heroName"
-                   id="heroName" class="form-control"/>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="heroType" class="col-3 col-form-label">Type</label>
-          <div class="col-9">
-            <select name="heroType" id="heroType" class="form-control">
-              <option value="option1">Hero</option>
-              <option value="option2">Villain</option>
-            </select>
-          </div>
-        </div>
 
-        <div class="form-group row">
-          <label for="description" class="col-3 col-form-label">
-            Description</label>
-          <div class="col-9">
-            <input type="text" name="description"
-                   id="description" class="form-control"/>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="power" class="col-3 col-form-label">
-            Power</label>
-          <div class="col-9">
-            <input type="text" name="power"
-                   id="power" class="form-control"/>
-          </div>
-        </div>
-<!--        <div class="form-group row">-->
-<!--          <label for="organization" class="col-3 col-form-label">-->
-<!--            Organization</label>-->
-<!--          <div class="col-9">-->
-<!--            <input type="text" name="organization"-->
-<!--                   id="organization" class="form-control"/>-->
-<!--          </div>-->
-<!--        </div>-->
-        <button type="submit" class="btn btn-primary">Edit Hero</button>
-      </form>
+    <div class="col-6 text-right"><strong>Name</strong></div>
+    <div class="col-6 text-left">
+      <span th:text="${hero.name}">display name</span>
+    </div>
+
+    <div class="col-6 text-right"><strong>Description</strong></div>
+    <div class="col-6 text-left">
+      <span th:text="${hero.description}">display description</span>
+    </div>
+    <div class="col-6 text-right"><strong>Power</strong></div>
+    <div class="col-6 text-left">
+                    <span th:text="${hero.power.name}">display power</span>
+    </div>
+    <div class="col-6 text-right"><strong>Power Description</strong></div>
+    <div class="col-6 text-left">
+                    <span th:text="${hero.power.description}">display power description</span>
+    </div>
+    <div class="col-6 text-right"><strong>Organizations</strong></div>
+    <div class="col-6 text-left">
+                    <span th:each="organization : ${hero.organizations}">
+                        <span th:text="${organization.name +' ' + organization.address}">
+                            display organization</span><br/>
+                    </span>
     </div>
   </div>
+
+  <div class="container bg-light">
+    <div class="col-md-12 text-center">
+      <button type="button" class="btn btn-primary"><a class="btn btn-primary" href="heroes" role="button">Go Back</a></button>
+    </div>
+  </div>
+
+
 </div>
 <!-- End main body -->
 

@@ -45,29 +45,23 @@ public class HeroController {
 
     @PostMapping("addHero")
     public String addHero(Hero hero, HttpServletRequest request) {
-        String name = request.getParameter("name");
-        String type = request.getParameter("type");
-        String description = request.getParameter("description");
         String powerID = request.getParameter("powerID");
-        String[] organizationIDs = request.getParameterValues("organizationID");
 
         hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerID)));
-
-        List<Organization> organizations = new ArrayList<>();
-        for(String organizationID : organizationIDs) {
-            organizations.add(organizationDao.getOrganizationByID(Integer.parseInt(organizationID)));
-        }
-
-        hero.setName(name);
-        hero.setType(type);
-        hero.setDescription(description);
-        hero.setOrganizations(organizations);
-
-
         heroDao.addHero(hero);
 
         return "redirect:/heroes";
     }
+
+
+
+    @GetMapping("heroDetails")
+    public String heroDetails(Integer id, Model model) {
+        Hero hero = heroDao.getHeroByID(id);
+        model.addAttribute("hero", hero);
+        return "heroDetails";
+    }
+
 
     @GetMapping("deleteHero")
     public String deleteHero(HttpServletRequest request) {
