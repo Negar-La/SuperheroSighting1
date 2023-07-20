@@ -8,14 +8,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-    <title>Superhero Sighting</title>
+    <title>Superhero Sightings</title>
 </head>
 <body>
 <!-- Main Body of Page -->
 <div class="container">
     <div class="row m-4">
         <div class="col text-center border border-dark">
-            <h1>Superhero Sightings</h1>
+            <h1><a href="/" class="text-dark">Hero Education and Relationship Organization (HERO)</a></h1>
         </div>
     </div>
     <div class="row m-3 border border-dark">
@@ -35,46 +35,60 @@
             <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
         </div>
     </div>
-    <div class="row m-4">
-        <div class="col text-center border border-dark">
-            <h3>Welcome to Super Hero & Villain Sightings</h3>
-            <h4>About the Application</h4>
-            <p>With the rising popularity of superhero movies, there has been growing interest in encountering one of these celebrities in our daily lives. This program is designed to document all superhero (and supervillain) sightings as well as keep a list of all heroes, villains, and corresponding organizations. </p>
+    <div class="row m-4 border border-dark">
+        <div class="col-6 text-right"><strong>ID</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.id}">display id</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Name</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.name}">display name</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Type</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.type}">display Type</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Description</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.description}">display description</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Address</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.address}">display address</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Phone</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.phone}">display phone</span>
+        </div>
+
+        <div class="col-6 text-right"><strong>Contact</strong></div>
+        <div class="col-6 text-left">
+            <span th:text="${organization.address}">display contact</span>
+        </div>
+
+
+        <div class="col-6 text-right"><strong>Heroes</strong></div>
+        <div class="col-6 text-left">
+                    <span th:each="hero : ${organization.members}">
+                        <span th:text="${hero.name}">
+                            display hero</span><br/>
+                    </span>
+        </div>
+
+    </div>
+
+    <div class="container bg-light">
+        <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-primary"><a class="btn btn-primary" href="organizations" role="button">Go Back</a></button>
         </div>
     </div>
-    <div class="row m-4">
-        <div class="col text-center border border-dark">
-            <h4> Last 10 Sightings </h4>
-            <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Sighting ID</th>
-                            <th>Description</th>
-                            <th>Date</th>
-                            <th>Hero</th>
-                            <th>Location</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="sighting : ${sightings}">
-                            <td th:text="${sighting.id}"></td>
-                            <td th:text="${sighting.description}"></td>
-                            <td th:text="${sighting.date}"></td>
-                            <td th:text="${sighting.hero}"></td>
-                            <td th:text="${sighting.location}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
 
 
-
-
-        </div>
-    </div>
 </div>
 <!-- End main body -->
 

@@ -3,6 +3,7 @@ package com.we.SuperHeroSightings.controller;
 import com.we.SuperHeroSightings.dao.PowerDao;
 import com.we.SuperHeroSightings.entities.Power;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class PowerController {
     }
 
     @PostMapping("addPower")
-    public String addPower(String name,String description) {
+    public String addPower(String name, String description) {
         Power power = new Power();
         power.setName(name);
         power.setDescription(description);
@@ -41,13 +42,25 @@ public class PowerController {
     @GetMapping("editPower")
     public String editPower(Integer id, Model model) {
         Power power = powerDao.getPowerByID(id);
-        model.addAttribute("Power", power);
+        model.addAttribute("power", power);
         return "editPower";
     }
 
+//    @PostMapping("editPower")
+//    public String performEditPower(Power power) {
+//        powerDao.updatePower(power);
+//        return "redirect:/powers";
+//    }
+
     @PostMapping("editPower")
-    public String editPower(Power power) {
+    public String performEditPower(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Power power = powerDao.getPowerByID(id);
+        power.setName(request.getParameter("name"));
+        power.setDescription(request.getParameter("description"));
+
         powerDao.updatePower(power);
         return "redirect:/powers";
     }
+
 }

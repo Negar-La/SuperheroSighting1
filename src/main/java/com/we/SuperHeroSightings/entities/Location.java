@@ -13,10 +13,20 @@ import javax.validation.constraints.Size;
 public class Location {
     
     private int id;
-    private String name; 
+    @NotBlank(message = "First name must not be empty.")
+    @Size(max = 50, message = "First name must be less than 50 characters.")
+    private String name;
+    @NotBlank(message = "Description must not be empty.")
+    @Size(max = 255, message = "Description must be less than 255 characters.")
     private String description;
-    private String address; 
+    @NotBlank(message = "Address must not be empty.")
+    @Size(max = 150, message = "Address must be less than 150 characters.")
+    private String address;
+    @NotBlank(message = "Longitude must not be empty.")
+    @Size(max = 10, message = "Please enter a valid longitude.")
     private String longitude;
+    @NotBlank(message = "Latitude must not be empty.")
+    @Size(max = 10, message = "Please enter a valid latitude.")
     private String latitude;
 
     public int getId() {
