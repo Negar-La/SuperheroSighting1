@@ -15,7 +15,7 @@
 <div class="container">
     <div class="row m-4">
         <div class="col text-center border border-dark">
-            <h1>Hero Education and Relationship Organization (HERO)</h1>
+            <h1>Superhero Sightings</h1>
         </div>
     </div>
     <div class="row m-3 border border-dark">
@@ -37,7 +37,9 @@
     </div>
     <div class="row m-4">
         <div class="col text-center border border-dark">
-            <h4>Welcome to Super Hero & Villain Sightings.</h4>
+            <h3>Welcome to Super Hero & Villain Sightings</h3>
+            <h4>About the Application</h4>
+            <p>With the rising popularity of superhero movies, there has been growing interest in encountering one of these celebrities in our daily lives. This program is designed to document all superhero (and supervillain) sightings as well as keep a list of all heroes, villains, and corresponding organizations. </p>
         </div>
     </div>
     <div class="row m-4">
@@ -48,20 +50,20 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Location Name</th>
+                            <th>Sighting ID</th>
                             <th>Description</th>
-                            <th>Details</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Date</th>
+                            <th>Hero</th>
+                            <th>Location</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="Location : ${locations}">
-                            <td th:text="${teacher.id}">Location Name</td>
-                            <td th:text="${teacher.firstName}">Location Description</td>
-                            <td th:text="${teacher.lastName}">Location Details</td>
-                            <td><a href="#" th:href="@{/updateLocation(id=${location.id})}">Edit</a></td>
-                            <td><a href="#" th:href="@{/deleteLocationById(id=${location.id})}">Delete</a></td>
+                        <tr th:each="sighting : ${sightings}">
+                            <td th:text="${sighting.id}"></td>
+                            <td th:text="${sighting.description}"></td>
+                            <td th:text="${sighting.date}"></td>
+                            <td th:text="${sighting.hero}"></td>
+                            <td th:text="${sighting.location}"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -19,19 +19,19 @@
     </div>
     <div class="row m-4 border border-dark">
         <div class="col text-center m-3">
-            <a href="teachers" class="btn btn-outline-primary btn-lg">Heroes</a>
+            <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
         </div>
         <div class="col text-center m-3">
-            <a href="students" class="btn btn-outline-primary btn-lg">Powers</a>
+            <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
         </div>
         <div class="col text-center m-3">
-            <a href="courses" class="btn btn-outline-primary btn-lg">Locations</a>
+            <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
         </div>
         <div class="col text-center m-3">
-            <a href="courses" class="btn btn-outline-primary btn-lg">Organizations</a>
+            <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
         </div>
         <div class="col text-center m-3">
-            <a href="courses" class="btn btn-outline-primary btn-lg">Sightings</a>
+            <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
         </div>
     </div>
 <!--    <div class="row m-4 border border-dark">-->
@@ -41,36 +41,84 @@
 <!--               th:text="${error.message}">Error message</p>-->
 <!--        </div>-->
 <!--    </div>-->
+    <div class="row m-4 border border-dark">
     <div class="col-3 text-center m-3">
         <span class="h3">Add Location</span>
     </div>
     <div class="col-7 text-center m-3">
         <form action="addLocation" method="POST">
             <div class="form-group row">
-                <label for="addLocation" class="col-3 col-form-label">
+                <label for="name" class="col-3 col-form-label">
                     Location Name</label>
                 <div class="col-9">
-                    <input type="text" name="locationName"
-                           id="locationName" class="form-control"/>
+                    <input type="text" name="name"
+                           id="name" class="form-control"/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="lastName" class="col-3 col-form-label">
-                    Last Name</label>
+                <label for="description" class="col-3 col-form-label">
+                    Description</label>
                 <div class="col-9">
-                    <input type="text" name="lastName"
-                           id="lastName" class="form-control"/>
+                    <input type="text" name="description"
+                           id="description" class="form-control"/>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="specialty" class="col-3 col-form-label">
-                    Specialty</label>
+                <label for="address" class="col-3 col-form-label">
+                    Address</label>
                 <div class="col-9">
-                    <input type="text" name="specialty"
-                           id="specialty" class="form-control"/>
+                    <input type="text" name="address"
+                           id="address" class="form-control"/>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add Teacher</button>
+            <div class="form-group row">
+                <label for="latitude" class="col-3 col-form-label">
+                    Latitude</label>
+                <div class="col-9">
+                    <input type="text" name="latitude"
+                           id="latitude" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="longitude" class="col-3 col-form-label">
+                    Longitude</label>
+                <div class="col-9">
+                    <input type="text" name="longitude"
+                           id="longitude" class="form-control"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Location</button>
         </form>
+    </div>
+</div>
+</div>
+<div class="row m-4 border border-dark">
+    <div class="col text-center m-3">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Location ID</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Address</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="location : ${locations}">
+                <td th:text="${location.id}">Location ID</td>
+                <td th:text="${location.name}">Location Name</td>
+                <td th:text="${location.description}">Description</td>
+                <td th:text="${location.address}">Address</td>
+                <td th:text="${location.latitude}">Latitude</td>
+                <td th:text="${location.longitude}">Longitude</td>
+                <td><a href="#" th:href="@{/editLocation(id=${location.id})}">Edit</a></td>
+                <td><a href="#" th:href="@{/deleteLocation(id=${location.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
