@@ -2,6 +2,8 @@ package com.we.SuperHeroSightings.controller;
 
 import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.Hero;
+import com.we.SuperHeroSightings.entities.Organization;
+import com.we.SuperHeroSightings.entities.Power;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,24 +35,33 @@ public class HeroController {
     @GetMapping("heroes")
     public String displayHeroes(Model model) {
         List<Hero> heroes = heroDao.getAllHeros();
+        List<Power> powers = powerDao.getAllPowers();
+        List<Organization> organizations = organizationDao.getAllOrganizations();
         model.addAttribute("heroes", heroes);
+        model.addAttribute("powers", powers);
+        model.addAttribute("organizations", organizations);
         return "heroes";
     }
 
     @PostMapping("addHero")
-    public String addHero(HttpServletRequest request) {
+    public String addHero(Hero hero, HttpServletRequest request) {
         String name = request.getParameter("name");
         String type = request.getParameter("type");
         String description = request.getParameter("description");
-//        String power = request.getParameter("power");
-//        String organizations = request.getParameter("organizations");
+        String powerID = request.getParameter("powerID");
+        String[] organizationIDs = request.getParameterValues("organizationID");
 
-        Hero hero = new Hero();
+        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerID)));
+
+        List<Organization> organizations = new ArrayList<>();
+        for(String organizationID : organizationIDs) {
+            organizations.add(organizationDao.getOrganizationByID(Integer.parseInt(organizationID)));
+        }
+
         hero.setName(name);
         hero.setType(type);
         hero.setDescription(description);
-//        hero.setPower(power);
-//        hero.setOrganizations(organizations);
+        hero.setOrganizations(organizations);
 
 
         heroDao.addHero(hero);
