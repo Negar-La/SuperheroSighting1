@@ -42,17 +42,17 @@
         <div class="col-7 text-center m-3">
             <form action="addHero" method="POST">
                 <div class="form-group row">
-                    <label for="heroName" class="col-3 col-form-label">
+                    <label for="name" class="col-3 col-form-label">
                         Hero/Villain</label>
                     <div class="col-9">
-                        <input type="text" name="heroName"
-                               id="heroName" class="form-control"/>
+                        <input type="text" name="name"
+                               id="name" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="heroType" class="col-3 col-form-label">Type</label>
+                    <label for="type" class="col-3 col-form-label">Type</label>
                     <div class="col-9">
-                        <select name="heroType" id="heroType" class="form-control">
+                        <select name="type" id="type" class="form-control">
                             <option value="option1">Hero</option>
                             <option value="option2">Villain</option>
                         </select>
@@ -71,24 +71,29 @@
                     <label for="power" class="col-3 col-form-label">
                         Power</label>
                     <div class="col-9">
-                        <input type="text" name="power"
-                               id="power" class="form-control"/>
+                        <select id="power" name="power" class="form-control" >
+                            <option th:each="power : ${powers}"
+                                    th:value="${power.id}"
+                                    th:text="${power.name}">
+                                Power Name</option>
+                        </select>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="organizations" class="col-3 col-form-label">
-                        Organization</label>
-                    <div class="col-9">
-                        <input type="text" name="organization"
-                               id="organizations" class="form-control"/>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="heroPhoto" class="col-3 col-form-label">Photo</label>
-                    <div class="col-9">
-                        <input type="file" name="heroPhoto" id="heroPhoto" accept="image/*" class="form-control-file">
-                    </div>
-                </div>
+<!--                <div class="form-group row">-->
+<!--                    <label for="organizations" class="col-3 col-form-label">-->
+<!--                        Organization</label>-->
+<!--                    <div class="col-9">-->
+<!--                        <input type="text" name="organization"-->
+<!--                               id="organizations" class="form-control"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group row">-->
+<!--                    <label for="heroPhoto" class="col-3 col-form-label">Photo</label>-->
+<!--                    <div class="col-9">-->
+<!--                        <input type="file" name="heroPhoto" id="heroPhoto" accept="image/*" class="form-control-file">-->
+<!--                    </div>-->
+<!--                </div>-->
+
                 <button type="submit" class="btn btn-primary">Add Hero</button>
             </form>
         </div>
@@ -102,16 +107,18 @@
                     <th>Type</th>
                     <th>Description</th>
                     <th>Power</th>
+                    <th>Details</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="hero : ${heroes}">
-                    <td th:text="${hero.id}">Hero/Villain</td>
+                    <td th:text="${hero.name}">Hero/Villain</td>
                     <td th:text="${hero.type}">Type</td>
                     <td th:text="${hero.description}">Description</td>
-                    <td th:text="${hero.power}">Power</td>
+                    <td th:text="${hero.power.name}">Power</td>
+                    <td><a href="#" th:href="@{/heroDetails(id=${hero.id})}">Details</a></td>
                     <td><a href="#" th:href="@{/editHero(id=${hero.id})}">Edit</a></td>
                     <td><a href="#" th:href="@{/deleteHero(id=${hero.id})}">Delete</a></td>
                 </tr>
