@@ -42,11 +42,11 @@
         <div class="col-7 text-center m-3">
             <form action="addHero" method="POST">
                 <div class="form-group row">
-                    <label for="heroName" class="col-3 col-form-label">
+                    <label for="name" class="col-3 col-form-label">
                         Hero/Villain</label>
                     <div class="col-9">
-                        <input type="text" name="heroName"
-                               id="heroName" class="form-control"/>
+                        <input type="text" name="name"
+                               id="name" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -71,7 +71,7 @@
                     <label for="power" class="col-3 col-form-label">
                         Power</label>
                     <div class="col-9">
-                        <select id="power" name="powerID" class="form-control" >
+                        <select id="power" name="power" class="form-control" >
                             <option th:each="power : ${powers}"
                                     th:value="${power.id}"
                                     th:text="${power.name}">
@@ -93,6 +93,7 @@
 <!--                        <input type="file" name="heroPhoto" id="heroPhoto" accept="image/*" class="form-control-file">-->
 <!--                    </div>-->
 <!--                </div>-->
+
                 <button type="submit" class="btn btn-primary">Add Hero</button>
             </form>
         </div>

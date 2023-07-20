@@ -7,10 +7,13 @@ import com.we.SuperHeroSightings.entities.Power;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.beans.PropertyEditorSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,15 +46,33 @@ public class HeroController {
         return "heroes";
     }
 
-    @PostMapping("addHero")
-    public String addHero(Hero hero, HttpServletRequest request) {
-        String powerID = request.getParameter("powerID");
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Power.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                int powerId = Integer.parseInt(text);
+                Power power = powerDao.getPowerByID(powerId);
+                setValue(power);
+            }
+        });
+    }
 
-        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerID)));
+    @PostMapping("/addHero")
+    public String addHero(@ModelAttribute("hero") @Valid Hero hero, BindingResult result, @RequestParam("power") Power power, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("powers", powerDao.getAllPowers());
+            return "add-hero-form";
+        }
+
+        hero.setPower(power);
+
         heroDao.addHero(hero);
 
         return "redirect:/heroes";
     }
+
+
 
 
 
@@ -80,20 +101,23 @@ public class HeroController {
         int id = Integer.parseInt(request.getParameter("id"));
         Hero hero = heroDao.getHeroByID(id);
 
+        List<Power> powers = powerDao.getAllPowers();
         model.addAttribute("hero", hero);
+        model.addAttribute("powers", powers);
+
         return "editHero";
     }
 
     @PostMapping("editHero")
-    public String performEditHero(HttpServletRequest request) {
+    public String performEditHero(Hero hero, HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Hero hero = heroDao.getHeroByID(id);
 
         hero.setName(request.getParameter("name"));
         hero.setType(request.getParameter("type"));
         hero.setDescription(request.getParameter("description"));
 
         heroDao.updateHero(hero);
+
 
         return "redirect:/heroes";
     }
