@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrganizationController {
@@ -33,12 +38,15 @@ public class OrganizationController {
     @Autowired
     SightingDao sightingDao;
 
+    Set<ConstraintViolation<Organization>> violations = new HashSet<>();
+
     @GetMapping("organizations")
     public String displayOrganizations(Model model) {
         List<Hero> heroes = heroDao.getAllHeros();
         List<Organization> organizations = organizationDao.getAllOrganizations();
         model.addAttribute("organizations", organizations);
         model.addAttribute("heroes", heroes);
+        model.addAttribute("errors", violations);
         return "organizations";
     }
 
@@ -68,9 +76,13 @@ public class OrganizationController {
         organization.setContact(contact);
         organization.setMembers(heroes);
 
-        organizationDao.addOrganization(organization);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
 
-        return "redirect:/teachers";
+        if(violations.isEmpty()) {
+            organizationDao.addOrganization(organization);
+        }
+        return "redirect:/organizations";
     }
 
     @GetMapping("organizationDetail")
@@ -99,7 +111,7 @@ public class OrganizationController {
         return "editOrganization";
     }
 
-    @PostMapping("editCourse")
+    @PostMapping("editOrganization")
     public String performEditOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request, Model model) {
 
         String[] heroIds = request.getParameterValues("id");
@@ -122,6 +134,9 @@ public class OrganizationController {
             return "editOrganization";
         }
 
+        if(result.hasErrors()) {
+            return "editOrganization";
+        }
         organizationDao.updateOrganization(organization);
 
         return "redirect:/organizations";

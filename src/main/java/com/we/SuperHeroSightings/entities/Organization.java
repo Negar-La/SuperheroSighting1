@@ -12,10 +12,14 @@ import javax.validation.constraints.Size;
  */
 public class Organization {
     
-    private int id; 
+    private int id;
+    @NotBlank(message = "Name must not be blank")
+    @Size(max = 45, message="Name must be fewer than 45 characters")
     private String name;   
-    private String type;  
-    private String description;     
+    private String type;
+    @Size(max = 255, message = "Description must be fewer than 255 characters")
+    private String description;
+    @Size(max = 45, message="Address must be fewer than 45 characters")
     private String address;
     private String phone;   
     private String contact;    
