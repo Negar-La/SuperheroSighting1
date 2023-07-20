@@ -87,7 +87,7 @@ public class OrganizationDaoDB implements OrganizationDao {
                 + "VALUES(?,?)";
         if (organization != null && organization.getMembers() != null) {
             for (Hero member : organization.getMembers()) {
-                jdbc.update(INSERT_MEMBER, organization.getId(), member.getId());
+                jdbc.update(INSERT_MEMBER, member.getId(), organization.getId());
             }
         }
     }
