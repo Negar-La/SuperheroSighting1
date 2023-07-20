@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Superhero Sightings</title>
+</head>
+<body>
+<!-- Main Body of Page -->
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center border border-dark">
+            <h1><a href="/" class="text-dark">Hero Education and Relationship Organization (HERO)</a></h1>
+        </div>
+    </div>
+    <div class="row m-3 border border-dark">
+        <div class="col text-center m-3">
+            <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+        </div>
+        <div class="col text-center m-3">
+            <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+        </div>
+    </div>
+    <div class="row m-4 border border-dark">
+        <div class="col-3 text-center m-3">
+            <span class="h3">Add Organization</span>
+        </div>
+        <div class="col-7 text-center m-3">
+            <form action="addOrganization" method="POST">
+                <div class="form-group row">
+                    <label for="OrganizationName" class="col-3 col-form-label">
+                        Name</label>
+                    <div class="col-9">
+                        <input type="text" name="OrganizationName"
+                               id="OrganizationName" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Type" class="col-3 col-form-label">Type</label>
+                    <div class="col-9">
+                        <select name="Type" id="Type" class="form-control">
+                            <option value="Hero">Hero</option>
+                            <option value="Villain">Villain</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Description" class="col-3 col-form-label">
+                        Description</label>
+                    <div class="col-9">
+                        <input type="text" name="Description"
+                               id="Description" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="OrganizationAddress" class="col-3 col-form-label">
+                        Address</label>
+                    <div class="col-9">
+                        <input type="text" name="OrganizationAddress"
+                               id="OrganizationAddress" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Phone" class="col-3 col-form-label">
+                        Phone</label>
+                    <div class="col-9">
+                        <input type="text" name="Phone"
+                               id="Phone" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="ContactInfo" class="col-3 col-form-label">
+                        Contact</label>
+                    <div class="col-9">
+                        <input type="text" name="ContactInfo"
+                               id="ContactInfo" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="heroes" class="col-3 col-form-label">
+                        Heroes</label>
+                    <div class="col-9">
+                        <select multiple id="heroes" name="id"
+                                class="form-control" >
+                            <option th:each="hero : ${heroes}"
+                                    th:value="${hero.id}"
+                                    th:text="${hero.name}">
+                                Hero Name</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Organization</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row m-4 border border-dark">
+        <div class="col text-center m-3">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Details</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="organization : ${organizations}">
+                    <td th:text="${organization.id}">Organization ID</td>
+                    <td th:text='${organization.name}'>Organization Name</td>
+                    <td th:text='${organization.type}'>Organization Type</td>
+                    <td th:text='${organization.description}'>Organization Description</td>
+                    <td><a href="#" th:href="@{/organizationDetail(id=${organization.id})}">Details</a></td>
+                    <td><a href="#" th:href="@{/editOrganization(id=${organization.id})}">Edit</a></td>
+                    <td><a href="#" th:href="@{/deleteOrganization(id=${organization.id})}">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- End main body -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>;
