@@ -4,9 +4,8 @@ package com.we.SuperHeroSightings.entities;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -14,11 +13,16 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author jtriolo
  */
 public class Sighting {
-    
+
     private int id;
-    private String description;  
+    @NotBlank(message = "Description cannot be empty.")
+    @Size(max = 255, message = "Description must be fewer than 255 characters")
+    private String description;
+    @NotNull(message = "Date should not be null.")
     private LocalDateTime date;
+    @NotNull(message = "Hero should not be null.")
     private Hero hero;
+    @NotNull(message = "Location should not be null.")
     private Location location;
 
 
