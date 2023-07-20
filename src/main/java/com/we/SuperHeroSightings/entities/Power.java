@@ -2,6 +2,7 @@ package com.we.SuperHeroSightings.entities;
 
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -11,11 +12,13 @@ import javax.validation.constraints.Size;
 public class Power {
 
     private int id;
+
     @NotBlank(message = "Name must not be blank")
-    @Size(max = 45, message = "Name must be fewer than 50 characters")
+    @Size(max = 50, message = "Name must be fewer than 50 characters")
     private String name;
-     @NotBlank(message = "Description must not be blank")
-    @Size(max = 45, message = "Description must be fewer than 255 characters")
+
+    @NotBlank(message = "Description must not be blank")
+    @Size(max = 255, message = "Description must be fewer than 255 characters")
     private String description;
 
     public int getId() {

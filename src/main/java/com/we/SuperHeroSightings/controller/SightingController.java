@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class SightingController {
@@ -25,66 +30,95 @@ public class SightingController {
     @Autowired
     SightingDao sightingDao;
 
+    Set<ConstraintViolation<Sighting>> errors = new HashSet<>();
     @GetMapping("sightings")
     public String displaySightings(Model model) {
         List<Sighting> sightings = sightingDao.getAllSightings();
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
+
         model.addAttribute("sightings", sightings);
+        model.addAttribute("heroes", heroes);
+        model.addAttribute("locations", locations);
+        model.addAttribute("errors", errors);
+
         return "sightings";
     }
 
     //need to make sure parse is not causing errors for integer and date
     @PostMapping("addSighting")
     public String addSighting(HttpServletRequest request) {
-        String date = request.getParameter("date");
-        LocalDateTime parsedDate = LocalDateTime.parse(date); //could cause error
-        String description = request.getParameter("description");
-        String hero = request.getParameter("heroId");
-        String location = request.getParameter("locationId");
-        int heroId = Integer.parseInt(hero); //could cause error
-        int locationId = Integer.parseInt(location); // could cause error
 
-        Hero heroObject = heroDao.getHeroByID(heroId);
-        Location locationObject = locationDao.getLocationByID(locationId);
+        String heroId = request.getParameter("heroID");
+        String locationId = request.getParameter("locationID");
+        String datetime = request.getParameter("date");
+        String description = request.getParameter("description");
 
         Sighting sighting = new Sighting();
-        sighting.setDate(parsedDate);
+        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
+        if ("".equals(datetime)) {
+            sighting.setDate(null);
+        } else {
+            sighting.setDate(LocalDateTime.parse(datetime));
+        }
         sighting.setDescription(description);
-        sighting.setHero(heroObject);
-        sighting.setLocation(locationObject);
 
-        sightingDao.addSighting(sighting);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        errors = validate.validate(sighting);
+
+        if(errors.isEmpty()) {
+            sightingDao.addSighting(sighting);
+        }
 
         return "redirect:/sightings";
     }
 
     @GetMapping("deleteSighting")
-    public String deleteSighting(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String deleteSighting(Integer id) {
         sightingDao.deleteSightingByID(id);
 
         return "redirect:/sightings";
     }
 
     @GetMapping("editSighting")
-    public String editSighting(HttpServletRequest request, Model model) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String editSighting(Integer id, Model model) {
         Sighting sighting = sightingDao.getSightingByID(id);
-
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
         model.addAttribute("sighting", sighting);
+        model.addAttribute("heroes", heroes);
+        model.addAttribute("locations", locations);
         return "editSighting";
     }
 
     @PostMapping("editSighting")
-    public String performEditSighting(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String performEditSighting(Integer id, HttpServletRequest request, Model model) {
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
+
+        String heroId = request.getParameter("heroID");
+        String locationId = request.getParameter("locationID");
+        String datetime = request.getParameter("date");
+        String description = request.getParameter("description");
+
         Sighting sighting = sightingDao.getSightingByID(id);
+        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
+        sighting.setDate(LocalDateTime.parse(datetime));
+        sighting.setDescription(description);
 
-        sighting.setDate(LocalDateTime.parse(request.getParameter("date")));
-        sighting.setDescription(request.getParameter("description"));
-        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(request.getParameter("heroId"))));
-        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(request.getParameter("locationId"))));
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        errors = validate.validate(sighting);
 
-        sightingDao.updateSighting(sighting);
+        if (errors.isEmpty()) {
+            sightingDao.updateSighting(sighting);
+        } else {
+            model.addAttribute("sighting", sighting);
+            model.addAttribute("heroes", heroes);
+            model.addAttribute("locations", locations);
+            return "editSighting";
+        }
 
         return "redirect:/sightings";
     }
