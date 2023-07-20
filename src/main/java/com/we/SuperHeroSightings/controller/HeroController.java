@@ -1,9 +1,7 @@
 package com.we.SuperHeroSightings.controller;
 
 import com.we.SuperHeroSightings.dao.*;
-import com.we.SuperHeroSightings.entities.Hero;
-import com.we.SuperHeroSightings.entities.Organization;
-import com.we.SuperHeroSightings.entities.Power;
+import com.we.SuperHeroSightings.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,34 +45,24 @@ public class HeroController {
         return "heroes";
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Power.class, new PropertyEditorSupport() {
-            @Override
-            public void setAsText(String text) throws IllegalArgumentException {
-                int powerId = Integer.parseInt(text);
-                Power power = powerDao.getPowerByID(powerId);
-                setValue(power);
-            }
-        });
-    }
 
-    @PostMapping("/addHero")
-    public String addHero(@ModelAttribute("hero") @Valid Hero hero, BindingResult result, @RequestParam("power") Power power, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("powers", powerDao.getAllPowers());
-            return "add-hero-form";
-        }
+    @PostMapping("addHero")
+    public String addHero(HttpServletRequest request) {
+        String name = request.getParameter("name");
+        String type = request.getParameter("type");
+        String description = request.getParameter("description");
+        String power = request.getParameter("powerId");
+        int powerId = Integer.parseInt(power);
 
-        hero.setPower(power);
+        Power powerObject = powerDao.getPowerByID(powerId);
+
+        Hero hero = new Hero();
+        hero.setPower(powerObject);
 
         heroDao.addHero(hero);
 
         return "redirect:/heroes";
     }
-
-
-
 
 
     @GetMapping("heroDetails")
