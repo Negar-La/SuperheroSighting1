@@ -7,91 +7,94 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-        <title>Course Manager</title>
+        <title>Locations</title>
     </head>
     <body>
-        <!-- Main Body of Page -->
-        <div class="container">
+        <div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
             <div class="row m-4">
                 <div class="col text-center border border-dark">
-                    <h1><a href="/" class="text-dark">Powers</a></h1>
+                    <h1><a href="/" class="text-dark">Superhero Sightings</a></h1>
                 </div>
             </div>
             <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
+                <div class="row m-3 border border-dark">
+                    <div class="col text-center m-3">
+                        <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
+                    </div>
+                    <div class="col text-center m-3">
+                        <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
+                    </div>
+                    <div class="col text-center m-3">
+                        <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                    </div>
+                    <div class="col text-center m-3">
+                        <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+                    </div>
+                    <div class="col text-center m-3">
+                        <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+                    </div>
                 </div>
-                <div class="col text-center m-3">
-                    <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
-                </div>
-                <div class="col text-center m-3">
-                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
-                </div>
-            </div>
-            <div class="row m-4 border border-dark">
-                <div class="col-3 text-center m-3">
-                    <span class="h3">Add Powers</span>
-                </div>
-                <div class="col-7 text-center m-3">
-                    <form action="addPower" method="POST">
-                        <div class="form-group row">
-                            <label for="name" class="col-3 col-form-label">
-                                Power Name</label>
-                            <div class="col-9">
-                                <input type="text" name="name" 
-                                       id="name" class="form-control"/>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="description" class="col-3 col-form-label">
-                                Description</label>
-                            <div class="col-9">
-                                <input type="text" name="description" 
-                                       id="description" class="form-control"/>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Power</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row m-4 border border-dark">
-                <div class="col text-center m-3">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>POWER</th>
-                                <th>DESCRIPTION</th>              
-                                <th>EDIT</th>
-                                <th>DELETE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="power : ${powers}">
-                                <td th:text="${power.id}">ID</td>
-                                <td th:text="${power.name}">NAME</td>
-                                <td th:text="${power.description}">DESCRIPTION</td>                
-                                <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
-                                <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- End main body -->
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    </body>
-</html>;
+                <div class="row m-4 border border-dark">
+
+
+
+                    <div class="col-3 text-center m-3">
+                        <span class="h3">Add Power</span>
+                    </div>
+                    <div class="col-12 m-1 text-center" 
+                         th:if="${!errors.isEmpty()}">
+                        <p class="alert alert-danger" th:each="error : ${errors}" 
+                           th:text="${error.message}">Error message</p>
+                    </div>
+                    <div class="col-7 text-center m-3">
+                        <form action="addPower" method="POST">
+                            <div class="form-group row">
+                                <label for="date" class="col-3 col-form-label">
+                                    Name</label>
+                                <div class="col-9">
+                                    <input type="text" name="name"
+                                           id="name" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="description" class="col-3 col-form-label">
+                                    Description</label>
+                                <div class="col-9">
+                                    <input type="text" name="description"
+                                           id="description" class="form-control"/>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary">Add Power</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row m-4 border border-dark">
+
+                    <div class="col text-center m-3">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Power</th>
+                                    <th>Description</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="power : ${powers}">
+                                    <td th:text="${power.id}">Sighting ID</td>
+                                    <td th:text="${power.name}">Sighting Date</td>
+                                    <td th:text="${power.description}">Sighting Description</td>
+
+                                    <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
+                                    <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
