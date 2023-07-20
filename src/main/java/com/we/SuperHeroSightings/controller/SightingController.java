@@ -59,7 +59,7 @@ public class SightingController {
 
     @GetMapping("deleteSighting")
     public String deleteSighting(HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("SightingPK"));
+        int id = Integer.parseInt(request.getParameter("id"));
         sightingDao.deleteSightingByID(id);
 
         return "redirect:/sightings";
@@ -67,11 +67,26 @@ public class SightingController {
 
     @GetMapping("editSighting")
     public String editSighting(HttpServletRequest request, Model model) {
-        int id = Integer.parseInt(request.getParameter("SightingPK"));
+        int id = Integer.parseInt(request.getParameter("id"));
         Sighting sighting = sightingDao.getSightingByID(id);
 
         model.addAttribute("sighting", sighting);
         return "editSighting";
+    }
+
+    @PostMapping("editSighting")
+    public String performEditSighting(HttpServletRequest request) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Sighting sighting = sightingDao.getSightingByID(id);
+
+        sighting.setDate(LocalDateTime.parse(request.getParameter("date")));
+        sighting.setDescription(request.getParameter("description"));
+        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(request.getParameter("heroId"))));
+        sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(request.getParameter("locationId"))));
+
+        sightingDao.updateSighting(sighting);
+
+        return "redirect:/sightings";
     }
 
 }
