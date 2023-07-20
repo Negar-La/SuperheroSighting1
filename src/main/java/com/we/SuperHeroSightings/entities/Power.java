@@ -1,4 +1,3 @@
-
 package com.we.SuperHeroSightings.entities;
 
 import java.util.Objects;
@@ -10,9 +9,13 @@ import javax.validation.constraints.Size;
  * @author jtriolo
  */
 public class Power {
-    
+
     private int id;
+    @NotBlank(message = "Name must not be blank")
+    @Size(max = 45, message = "Name must be fewer than 50 characters")
     private String name;
+     @NotBlank(message = "Description must not be blank")
+    @Size(max = 45, message = "Description must be fewer than 255 characters")
     private String description;
 
     public int getId() {
@@ -71,7 +74,5 @@ public class Power {
         }
         return true;
     }
-    
-    
-    
+
 }
