@@ -40,12 +40,19 @@ public class SightingController {
 
     //need to make sure parse is not causing errors for integer and date
     @PostMapping("addSighting")
-    public String addSighting(Sighting sighting, HttpServletRequest request) {
-        String heroId = request.getParameter("heroId");
-        String locationId = request.getParameter("locationId");
+    public String addSighting(HttpServletRequest request) {
+        String heroId = request.getParameter("heroID");
+        String locationId = request.getParameter("locationID");
+        String datetime = request.getParameter("date");
+        String description = request.getParameter("description");
 
+        Sighting sighting = new Sighting();
         sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
         sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
+        sighting.setDate(LocalDateTime.parse(datetime));
+        sighting.setDescription(description);
+
+        sightingDao.addSighting(sighting);
 
         return "redirect:/sightings";
     }
@@ -69,12 +76,17 @@ public class SightingController {
     }
 
     @PostMapping("editSighting")
-    public String performEditSighting(Sighting sighting, HttpServletRequest request) {
-        String heroId = request.getParameter("heroId");
-        String locationId = request.getParameter("locationId");
+    public String performEditSighting(Integer id, HttpServletRequest request) {
+        String heroId = request.getParameter("heroID");
+        String locationId = request.getParameter("locationID");
+        String datetime = request.getParameter("date");
+        String description = request.getParameter("description");
 
+        Sighting sighting = sightingDao.getSightingByID(id);
         sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
         sighting.setLocation(locationDao.getLocationByID(Integer.parseInt(locationId)));
+        sighting.setDate(LocalDateTime.parse(datetime));
+        sighting.setDescription(description);
 
         sightingDao.updateSighting(sighting);
 
