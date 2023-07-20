@@ -55,9 +55,12 @@ public class OrganizationController {
         String[] heroIds = request.getParameterValues("id");
 
         List<Hero> heroes = new ArrayList<>();
-        for(String heroId: heroIds) {
-            heroes.add(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        if(heroIds != null) {
+            for(String heroId: heroIds) {
+                heroes.add(heroDao.getHeroByID(Integer.parseInt(heroId)));
+            }
         }
+
 
 
         String name = request.getParameter("OrganizationName");
@@ -121,23 +124,31 @@ public class OrganizationController {
             for(String heroId : heroIds) {
                 heroes.add(heroDao.getHeroByID(Integer.parseInt(heroId)));
             }
-        } else {
+        }
+        else {
             FieldError error = new FieldError("organization", "heroes", "Must include one hero");
             result.addError(error);
         }
 
         organization.setMembers(heroes);
 
-        if(result.hasErrors()) {
-            model.addAttribute("heroes", heroDao.getAllHeros());
-            model.addAttribute("organization", organization);
-            return "editOrganization";
-        }
+//        if(result.hasErrors()) {
+//            model.addAttribute("heroes", heroDao.getAllHeros());
+//            model.addAttribute("organization", organization);
+//            return "editOrganization";
+//        }
 
         if(result.hasErrors()) {
             return "editOrganization";
         }
-        organizationDao.updateOrganization(organization);
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(organization);
+
+        if(violations.isEmpty()) {
+            organizationDao.updateOrganization(organization);
+        }
+     //   organizationDao.updateOrganization(organization);
 
         return "redirect:/organizations";
     }

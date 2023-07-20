@@ -24,11 +24,10 @@ public class SightingDaoDB implements SightingDao {
 
     @Autowired
     JdbcTemplate jdbc;
-
     @Override
     public Sighting getSightingByID(int id) {
         try {
-            final String sql = "SELECT SightingDate, Description, HeroPK, LocationPK FROM sighting WHERE SightingPK = ?;";
+            final String sql = "SELECT * FROM sighting WHERE SightingPK = ?;";
             Sighting sighting = jdbc.queryForObject(sql, new SightingMapper(), id);
             insertHero(sighting);
             insertLocation(sighting);
@@ -132,7 +131,8 @@ public class SightingDaoDB implements SightingDao {
         return sightings;
     }
 
-    public static final class SightingMapper implements RowMapper<Sighting> {
+    public final class SightingMapper implements RowMapper<Sighting> {
+
         @Override
         public Sighting mapRow(ResultSet rs, int index) throws SQLException {
             Sighting sighting = new Sighting();
