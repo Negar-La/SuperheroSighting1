@@ -19,13 +19,13 @@
     </div>
     <div class="row m-4 border border-dark">
         <div class="col text-center m-3">
-            <a href="organizations.html" class="btn btn-outline-primary btn-lg">Organization</a>
+            <a href="organizations" class="btn btn-outline-primary btn-lg">Organization</a>
         </div>
         <div class="col text-center m-3">
-            <a href="sightings.html" class="btn btn-outline-primary btn-lg">Sightings</a>
+            <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
         </div>
         <div class="col text-center m-3">
-            <a href="heroes.html" class="btn btn-outline-primary btn-lg">Heroes</a>
+            <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
         </div>
     </div>
     <div class="row m-4 border border-dark">
@@ -33,7 +33,7 @@
             <span class="h3">Edit Sighting</span>
         </div>
         <div class="col-7 text-center m-3">
-            <form action="editSighting.html" method="POST">
+            <form action="editSighting" method="POST">
                 <div class="form-group row">
                     <label for="date" class="col-3 col-form-label">Date</label>
                     <div class="col-9">
@@ -53,7 +53,7 @@
                 <div class="form-group row">
                     <label for="hero" class="col-3 col-form-label">Hero</label>
                     <div class="col-9">
-                        <select id="hero" name="heroId" class="form-control" >
+                        <select id="hero" name="heroID" class="form-control" >
                             <option th:each="hero : ${heroes}"
                                     th:value="${hero.id}"
                                     th:text="${hero.name}"
@@ -65,7 +65,7 @@
                 <div class="form-group row">
                     <label for="location" class="col-3 col-form-label">Location</label>
                     <div class="col-9">
-                        <select id="location" name="locationId"
+                        <select id="location" name="locationID"
                                 class="form-control">
                             <option th:each="location : ${locations}"
                                     th:value="${location.id}"
