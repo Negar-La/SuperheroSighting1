@@ -7,7 +7,7 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <title>Locations</title>
+        <title>Powers</title>
     </head>
     <body>
         <div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="row m-4 border border-dark">
-                <div class="row m-3 border border-dark">
+           
                     <div class="col text-center m-3">
                         <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
                     </div>
@@ -42,27 +42,32 @@
                     <div class="col-3 text-center m-3">
                         <span class="h3">Add Power</span>
                     </div>
-                    <div class="col-12 m-1 text-center" 
-                         th:if="${!errors.isEmpty()}">
-                        <p class="alert alert-danger" th:each="error : ${errors}" 
-                           th:text="${error.message}">Error message</p>
-                    </div>
+
                     <div class="col-7 text-center m-3">
                         <form action="addPower" method="POST">
                             <div class="form-group row">
-                                <label for="date" class="col-3 col-form-label">
-                                    Name</label>
+                                <label for="name" class="col-3 col-form-label">Power</label>
                                 <div class="col-9">
-                                    <input type="text" name="name"
-                                           id="name" class="form-control"/>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                           th:value="${power.name}" />
+                                    <div th:if="${#fields.hasErrors('power.name')}">
+                                        <p th:each="error : ${#fields.errors('power.name')}"
+                                           class="alert alert-danger" th:text="${error}">
+                                            Error: Name Cannot be blank! </p>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="description" class="col-3 col-form-label">
-                                    Description</label>
+                                <label for="description" class="col-3 col-form-label">Description</label>
                                 <div class="col-9">
-                                    <input type="text" name="description"
-                                           id="description" class="form-control"/>
+                                    <input type="text" name="description" id="description" class="form-control"
+                                           th:value="${power.description}" />
+                                    <div th:if="${#fields.hasErrors('power.description')}">
+                                        <p th:each="error : ${#fields.errors('power.description')}"
+                                           class="alert alert-danger" th:text="${error}">
+                                            Error: Description Cannot be Blank! </p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -86,9 +91,9 @@
                             </thead>
                             <tbody>
                                 <tr th:each="power : ${powers}">
-                                    <td th:text="${power.id}">Sighting ID</td>
-                                    <td th:text="${power.name}">Sighting Date</td>
-                                    <td th:text="${power.description}">Sighting Description</td>
+                                    <td th:text="${power.id}">ID</td>
+                                    <td th:text="${power.name}">Power</td>
+                                    <td th:text="${power.description}"> Description</td>
 
                                     <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
                                     <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
