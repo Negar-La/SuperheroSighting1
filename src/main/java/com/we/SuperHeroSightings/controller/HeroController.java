@@ -51,13 +51,10 @@ public class HeroController {
         String name = request.getParameter("name");
         String type = request.getParameter("type");
         String description = request.getParameter("description");
-        String power = request.getParameter("powerId");
-        int powerId = Integer.parseInt(power);
 
-        Power powerObject = powerDao.getPowerByID(powerId);
 
         Hero hero = new Hero();
-        hero.setPower(powerObject);
+
 
         heroDao.addHero(hero);
 
