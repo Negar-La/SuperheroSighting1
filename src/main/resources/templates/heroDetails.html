@@ -58,13 +58,6 @@
     <div class="col-6 text-left">
                     <span th:text="${hero.power.description}">display power description</span>
     </div>
-    <div class="col-6 text-right"><strong>Organizations</strong></div>
-    <div class="col-6 text-left">
-                    <span th:each="organization : ${hero.organizations}">
-                        <span th:text="${organization.name +' ' + organization.address}">
-                            display organization</span><br/>
-                    </span>
-    </div>
   </div>
 
   <div class="container bg-light">
