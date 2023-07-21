@@ -69,7 +69,7 @@ public class SightingController {
         Sighting sighting = new Sighting();
         sighting.setHero(heroService.getHeroByID(Integer.parseInt(heroId)));
         sighting.setLocation(locationService.getLocationById(Integer.parseInt(locationId)));
-        if ("".equals(datetime)) {
+        if ("".equals(datetime) || LocalDateTime.parse(datetime).isAfter(LocalDateTime.now())) {
             sighting.setDate(null);
         } else {
             sighting.setDate(LocalDateTime.parse(datetime));
