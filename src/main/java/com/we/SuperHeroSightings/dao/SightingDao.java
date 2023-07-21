@@ -24,5 +24,6 @@ public interface SightingDao {
     List<Sighting> getSightingsByDate(LocalDateTime date);
     List<Sighting> getSightingsByLocation(Location location);
     List<Sighting> getSightingsByHero(Hero hero);
+    List<Sighting> getTenSightings();
     
 }

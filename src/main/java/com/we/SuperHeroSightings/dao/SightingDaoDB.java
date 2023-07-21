@@ -47,6 +47,16 @@ public class SightingDaoDB implements SightingDao {
         }
         return sightings;
     }
+    @Override
+    public List<Sighting> getTenSightings() {
+        final String TEN_SIGHTINGS = "SELECT * FROM sighting ORDER BY SightingPK DESC LIMIT 10";
+        List<Sighting> sightings = jdbc.query(TEN_SIGHTINGS, new SightingMapper());
+        for (Sighting sighting: sightings) {
+            insertLocation(sighting);
+            insertHero(sighting);
+        }
+        return sightings;
+    }
 
     @Override
     public Sighting addSighting(Sighting sighting) {

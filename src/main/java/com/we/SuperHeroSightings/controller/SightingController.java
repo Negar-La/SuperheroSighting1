@@ -44,6 +44,18 @@ public class SightingController {
 
         return "sightings";
     }
+    @GetMapping("index")
+    public String displayTenSightings(Model model){
+        List<Sighting> sightings = sightingDao.getTenSightings();
+        List<Hero> heroes = heroDao.getAllHeros();
+        List<Location> locations = locationDao.getAllLocations();
+
+        model.addAttribute("sightings", sightings);
+        model.addAttribute("heroes", heroes);
+        model.addAttribute("locations", locations);
+
+        return "index";
+    }
 
     //need to make sure parse is not causing errors for integer and date
     @PostMapping("addSighting")
@@ -122,5 +134,6 @@ public class SightingController {
 
         return "redirect:/sightings";
     }
+
 
 }
