@@ -51,8 +51,8 @@
                         <thead>
                         <tr>
                             <th>Sighting ID</th>
-                            <th>Description</th>
                             <th>Date</th>
+                            <th>Description</th>
                             <th>Hero</th>
                             <th>Location</th>
                         </tr>
@@ -60,18 +60,15 @@
                         <tbody>
                         <tr th:each="sighting : ${sightings}">
                             <td th:text="${sighting.id}"></td>
-                            <td th:text="${sighting.description}"></td>
                             <td th:text="${sighting.date}"></td>
-                            <td th:text="${sighting.hero}"></td>
-                            <td th:text="${sighting.location}"></td>
+                            <td th:text="${sighting.description}"></td>
+                            <td th:text="${sighting.hero.name}"></td>
+                            <td th:text="${sighting.location.name}"></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
-
 
         </div>
     </div>

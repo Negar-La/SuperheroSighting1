@@ -3,6 +3,11 @@ package com.we.SuperHeroSightings.controller;
 import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.*;
 import com.we.SuperHeroSightings.service.*;
+import com.we.SuperHeroSightings.service.HeroService;
+import com.we.SuperHeroSightings.service.LocationService;
+import com.we.SuperHeroSightings.service.OrganizationService;
+import com.we.SuperHeroSightings.service.PowerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +22,9 @@ public class HeroController {
 
     @Autowired
     HeroService heroService;
+
+    @Autowired
+    LocationService locationService;
 
     @Autowired
     OrganizationService organizationService;

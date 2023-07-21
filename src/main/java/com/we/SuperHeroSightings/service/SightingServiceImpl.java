@@ -27,6 +27,10 @@ public class SightingServiceImpl implements SightingService{
     }
 
     @Override
+    public List<Sighting> getLastTenSightings(){
+        return sightingDao.getTenSightings();
+    }
+    @Override
     public Sighting addSighting(Sighting sighting) {
         return sightingDao.addSighting(sighting);
     }
