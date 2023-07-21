@@ -117,7 +117,7 @@ public class OrganizationController {
     @PostMapping("editOrganization")
     public String performEditOrganization(@Valid Organization organization, BindingResult result, HttpServletRequest request, Model model) {
 
-        String[] heroIds = request.getParameterValues("id");
+        String[] heroIds = request.getParameterValues("heroIds");
 
         List<Hero> heroes = new ArrayList<>();
         if(heroIds != null) {

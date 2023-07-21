@@ -26,7 +26,7 @@ public class LocationController {
     public String displayLocations(Model model) {
         List<Location> locations = locationService.getAllLocations();
         model.addAttribute("locations", locations);
-        model.addAttribute("error", violations);
+        model.addAttribute("errors", violations);
         return "locations";
     }
 

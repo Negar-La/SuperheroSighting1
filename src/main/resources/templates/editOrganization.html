@@ -122,7 +122,9 @@
                 <div class="form-group row">
                     <label for="heroes" class="col-3 col-form-label">Heroes</label>
                     <div class="col-9">
-                        <select multiple id="heroes" name="id" class="form-control">
+
+<!--                 name should be unique!   name="heroIds"    -->
+                        <select multiple id="heroes" name="heroIds" class="form-control">
                             <option th:each="hero : ${heroes}"
                                     th:value="${hero.id}"
                                     th:text="${hero.name}"
@@ -136,6 +138,7 @@
                         </div>
                     </div>
                 </div>
+                <!--     When we work on the back-end, we use the name attribute to grab the data from the fields. name should be unique!   name="id"    -->
                 <input type="hidden" name="id" th:value="${organization.id}"/>
                 <button type="submit" class="btn btn-primary">Edit Organization</button>
                 <button type="button" class="btn btn-light"><a href="organizations">Cancel</a></button>
