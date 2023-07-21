@@ -44,7 +44,7 @@ public class SightingController {
 
         return "sightings";
     }
-    @GetMapping("index")
+    @GetMapping("/")
     public String displayTenSightings(Model model){
         List<Sighting> sightings = sightingService.getLastTenSightings();
         List<Hero> heroes = heroDao.getAllHeros();
