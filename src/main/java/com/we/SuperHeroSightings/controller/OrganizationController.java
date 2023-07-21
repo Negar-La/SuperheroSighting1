@@ -54,8 +54,6 @@ OrganizationController {
             }
         }
 
-
-
         String name = request.getParameter("OrganizationName");
         String type = request.getParameter("Type");
         String description = request.getParameter("Description");
@@ -125,13 +123,9 @@ OrganizationController {
 
         organization.setMembers(heroes);
 
-//        if(result.hasErrors()) {
-//            model.addAttribute("heroes", heroDao.getAllHeros());
-//            model.addAttribute("organization", organization);
-//            return "editOrganization";
-//        }
-
         if(result.hasErrors()) {
+            model.addAttribute("heroes", heroDao.getAllHeros());
+            model.addAttribute("organization", organization);
             return "editOrganization";
         }
 
@@ -141,7 +135,6 @@ OrganizationController {
         if(violations.isEmpty()) {
             organizationService.updateOrganization(organization);
         }
-     //   organizationDao.updateOrganization(organization);
 
         return "redirect:/organizations";
     }

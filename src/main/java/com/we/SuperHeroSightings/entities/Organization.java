@@ -4,6 +4,7 @@ package com.we.SuperHeroSightings.entities;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,6 +25,7 @@ public class Organization {
     @Size(max = 45, message="Address must be fewer than 45 characters")
     private String address;
     @NotBlank(message = "Phone must not be blank")
+    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}", message = "Phone must be in the format xxx-xxx-xxxx")
     private String phone;
     private String contact;    
     private List<Hero> members;
