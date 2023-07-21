@@ -116,15 +116,11 @@ public class HeroController {
 
         if(result.hasErrors()) {
             model.addAttribute("powers", powerService.getAllPowers());
-//            model.addAttribute("hero", hero);
             return "editHero";
         }
-//
-//        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-//        violations = validate.validate(hero);
-//        if (violations.isEmpty()) {
+
             heroService.updateHero(hero);
-//        }
+
 
         return "redirect:/heroes";
     }
