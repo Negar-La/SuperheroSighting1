@@ -1,6 +1,5 @@
 package com.we.SuperHeroSightings.controller;
 
-import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Organization;
 
