@@ -120,11 +120,11 @@ public class HeroController {
             return "editHero";
         }
 
-        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
-        violations = validate.validate(hero);
-        if (violations.isEmpty()) {
-            heroService.updateHero(hero);
-        }
+//        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+//        violations = validate.validate(hero);
+//        if (violations.isEmpty()) {
+//            heroService.updateHero(hero);
+//        }
 
         return "redirect:/heroes";
     }
