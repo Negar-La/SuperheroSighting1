@@ -6,6 +6,7 @@ import com.we.SuperHeroSightings.dao.PowerDao;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -15,10 +16,15 @@ import javax.validation.constraints.Size;
 public class Hero {
     
     private int id;
-    
+    @NotBlank(message = "Hero name must not be empty.")
+    @Size(max = 50, message = "First name must be less than 50 characters.")
     private String name;
+    @NotNull(message = "Type should not be null.")
     private String type;
-    private String description;    
+    @NotBlank(message = "Description must not be empty.")
+    @Size(max = 200, message = "Description must be less than 200 characters.")
+    private String description;
+    @NotNull(message = "Power should not be null.")
     private Power power;
     private List<Organization> organizations;
 

@@ -1,10 +1,7 @@
 package com.we.SuperHeroSightings.controller;
 
-import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.*;
-import com.we.SuperHeroSightings.service.*;
 import com.we.SuperHeroSightings.service.HeroService;
-import com.we.SuperHeroSightings.service.LocationService;
 import com.we.SuperHeroSightings.service.OrganizationService;
 import com.we.SuperHeroSightings.service.PowerService;
 
@@ -15,7 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class HeroController {
@@ -24,13 +26,12 @@ public class HeroController {
     HeroService heroService;
 
     @Autowired
-    LocationService locationService;
-
-    @Autowired
     OrganizationService organizationService;
 
     @Autowired
     PowerService powerService;
+
+    Set<ConstraintViolation<Hero>> violations = new HashSet<>();
 
 
 
@@ -42,6 +43,8 @@ public class HeroController {
         model.addAttribute("heroes", heroes);
         model.addAttribute("powers", powers);
         model.addAttribute("organizations", organizations);
+
+        model.addAttribute("errors", violations);
         return "heroes";
     }
 
@@ -60,7 +63,11 @@ public class HeroController {
         hero.setName(name);
         hero.setType(type);
 
-        heroService.addHero(hero);
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(hero);
+        if (violations.isEmpty()) {
+            heroService.addHero(hero);
+        }
 
         return "redirect:/heroes";
     }
