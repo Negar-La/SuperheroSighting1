@@ -21,25 +21,21 @@ public class PowerController {
 
     @Autowired
     PowerService powerService;
-    Set<ConstraintViolation<Power>> violations = new HashSet<>();
+
 
     @GetMapping("powers")
-    public String displayPowers(@Valid Power power, BindingResult result, Model model) {
+    public String displayPowers( Model model) {
         List<Power> powers = powerService.getAllPowers();
         model.addAttribute("powers", powers);
-        model.addAttribute("errors", violations);
+         model.addAttribute("power", new Power());
+
         return "powers";
     }
 
     @PostMapping("addPower")
-    public String addPower(@Valid Power power, BindingResult result, HttpServletRequest request, Model model) {
+    public String addPower(@Valid Power power, BindingResult result) {
 
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        power = powerService.createPower(name, description);
-        Power powerToCheck = powerService.validatePower(power);
-        if (!result.hasErrors() && powerToCheck != null) {
-            model.addAttribute("power", power);
+        if (!result.hasErrors() ) {
             powerService.addPower(power);
 
         }
