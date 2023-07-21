@@ -1,9 +1,9 @@
 package com.we.SuperHeroSightings.controller;
 
-import com.we.SuperHeroSightings.dao.HeroDao;
 import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Location;
 import com.we.SuperHeroSightings.entities.Sighting;
+import com.we.SuperHeroSightings.service.HeroService;
 import com.we.SuperHeroSightings.service.LocationService;
 import com.we.SuperHeroSightings.service.SightingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Set;
 @Controller
 public class SightingController {
     @Autowired
-    HeroDao heroDao;
+    HeroService heroService;
     @Autowired
     LocationService locationService;
     @Autowired
@@ -34,7 +34,7 @@ public class SightingController {
     @GetMapping("sightings")
     public String displaySightings(Model model) {
         List<Sighting> sightings = sightingService.getAllSightings();
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("sightings", sightings);
@@ -47,7 +47,7 @@ public class SightingController {
     @GetMapping("/")
     public String displayTenSightings(Model model){
         List<Sighting> sightings = sightingService.getLastTenSightings();
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("sightings", sightings);
@@ -67,7 +67,7 @@ public class SightingController {
         String description = request.getParameter("description");
 
         Sighting sighting = new Sighting();
-        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setHero(heroService.getHeroByID(Integer.parseInt(heroId)));
         sighting.setLocation(locationService.getLocationById(Integer.parseInt(locationId)));
         if ("".equals(datetime)) {
             sighting.setDate(null);
@@ -96,7 +96,7 @@ public class SightingController {
     @GetMapping("editSighting")
     public String editSighting(Integer id, Model model) {
         Sighting sighting = sightingService.getSightingByID(id);
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Location> locations = locationService.getAllLocations();
         model.addAttribute("sighting", sighting);
         model.addAttribute("heroes", heroes);
@@ -106,7 +106,7 @@ public class SightingController {
 
     @PostMapping("editSighting")
     public String performEditSighting(Integer id, HttpServletRequest request, Model model) {
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Location> locations = locationService.getAllLocations();
 
         String heroId = request.getParameter("heroID");
@@ -115,7 +115,7 @@ public class SightingController {
         String description = request.getParameter("description");
 
         Sighting sighting = sightingService.getSightingByID(id);
-        sighting.setHero(heroDao.getHeroByID(Integer.parseInt(heroId)));
+        sighting.setHero(heroService.getHeroByID(Integer.parseInt(heroId)));
         sighting.setLocation(locationService.getLocationById(Integer.parseInt(locationId)));
         sighting.setDate(LocalDateTime.parse(datetime));
         sighting.setDescription(description);
