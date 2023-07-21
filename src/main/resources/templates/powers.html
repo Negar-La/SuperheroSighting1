@@ -40,18 +40,18 @@
                     <span class="h3">Add Power</span>
                 </div>
 
-                
+                <div class="col-12 m-1 text-center"
+                     th:if="${!errors.isEmpty()}">
+                    <p class="alert alert-danger" th:each="error : ${errors}"
+                       th:text="${error.message}">Error message</p>
+                </div>
                 <form action="addPower" method="POST">
                     <div class="form-group row">
                         <label for="name" class="col-4 col-form-label">Power</label>
                         <div class="col-9">
                             <input type="text" name="name" id="name" class="form-control"
                                    />
-                            <div th:if="${#fields.hasErrors('power.name')}">
-                                <p th:each="error : ${#fields.errors('power.name')}"
-                                   class="alert alert-danger" th:text="${error}">
-                                </p>
-                            </div>
+
                         </div>
                     </div>
 
@@ -60,11 +60,7 @@
                         <div class="col-9">
                             <input type="text" name="description" id="description" class="form-control"
                                    />
-                            <div th:if="${#fields.hasErrors('power.description')}">
-                                <p th:each="error : ${#fields.errors('power.description')}"
-                                   class="alert alert-danger" th:text="${error}">
-                                </p>
-                            </div>
+
                         </div>
                     </div>
 

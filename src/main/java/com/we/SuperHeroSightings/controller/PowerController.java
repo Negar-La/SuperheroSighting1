@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,23 +24,23 @@ public class PowerController {
 
     @Autowired
     PowerService powerService;
-
+    Set<ConstraintViolation<Power>> violations = new HashSet<>();
 
     @GetMapping("powers")
-    public String displayPowers( Model model) {
+    public String displayPowers(Model model) {
         List<Power> powers = powerService.getAllPowers();
         model.addAttribute("powers", powers);
-         model.addAttribute("power", new Power());
+        model.addAttribute("errors", violations);
 
         return "powers";
     }
 
     @PostMapping("addPower")
-    public String addPower(@Valid Power power, BindingResult result) {
-
-        if (!result.hasErrors() ) {
+    public String addPower(Power power, BindingResult result) {
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(power);
+        if (violations.isEmpty()) {
             powerService.addPower(power);
-
         }
         return "redirect:/powers";
     }
@@ -48,7 +51,7 @@ public class PowerController {
         return "redirect:/powers";
     }
 
-    @GetMapping("editPower")
+       @GetMapping("editPower")
     public String editPower(Integer id, Model model) {
         Power power = powerService.getPowerByID(id);
         model.addAttribute("power", power);
