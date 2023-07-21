@@ -17,11 +17,14 @@ public class Organization {
     @Size(max = 45, message="Name must be fewer than 45 characters")
     private String name;   
     private String type;
+    @NotBlank(message = "Description must not be blank")
     @Size(max = 255, message = "Description must be fewer than 255 characters")
     private String description;
+    @NotBlank(message = "Address must not be blank")
     @Size(max = 45, message="Address must be fewer than 45 characters")
     private String address;
-    private String phone;   
+    @NotBlank(message = "Phone must not be blank")
+    private String phone;
     private String contact;    
     private List<Hero> members;
     
