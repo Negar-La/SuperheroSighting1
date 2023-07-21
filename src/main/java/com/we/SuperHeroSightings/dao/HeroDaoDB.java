@@ -87,7 +87,11 @@ public class HeroDaoDB implements HeroDao {
             return ps;
         }, keyHolder);
         hero.setId(keyHolder.getKey().intValue());
-        insertHeroOrganization(hero);
+        //Navdeep added condition to deal with null value for insertorganization
+        if (hero.getOrganizations() != null) {
+            insertHeroOrganization(hero);
+        }
+//        insertHeroOrganization(hero);
         return hero;
     }
     private void insertHeroOrganization(Hero hero){
