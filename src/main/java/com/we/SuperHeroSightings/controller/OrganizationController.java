@@ -116,17 +116,18 @@ OrganizationController {
             for(String heroId : heroIds) {
                 heroes.add(heroService.getHeroByID(Integer.parseInt(heroId)));
             }
+            organization.setMembers(heroes);
         }
         else {
             FieldError error = new FieldError("organization", "heroes", "Must include one hero");
             result.addError(error);
         }
 
-        organization.setMembers(heroes);
+
 
         if(result.hasErrors()) {
             model.addAttribute("heroes", heroService.getAllHeros());
-            model.addAttribute("organization", organization);
+        //    model.addAttribute("organization", organization);
             return "editOrganization";
         }
 
