@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Validation;
-import javax.validation.Validator;
-
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -52,8 +47,6 @@ public class HeroController {
         String type = request.getParameter("type");
         String description = request.getParameter("description");
         String powerId = request.getParameter("powerID");
-
-        System.out.println("DEBUG : powerID is " + powerId );
 
         Hero hero = new Hero();
         hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
@@ -102,23 +95,21 @@ public class HeroController {
     }
 
     @PostMapping("editHero")
-    public String performEditHero(Integer id, HttpServletRequest request) {
-        List <Power> powers = powerDao.getAllPowers();
-
+    public String performEditHero(Hero hero, HttpServletRequest request) {
         String powerId = request.getParameter("powerID");
-        String description = request.getParameter("description");
-        String name = request.getParameter("name");
-        String type = request.getParameter("type");
+//        String description = request.getParameter("description");
+//        String name = request.getParameter("name");
+//        String type = request.getParameter("type");
 
-        Hero hero = heroDao.getHeroByID(id);
         hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
-        hero.setDescription(description);
-        hero.setName(name);
-        hero.setType(type);
+//        hero.setDescription(description);
+//        hero.setName(name);
+//        hero.setType(type);
 
         heroDao.updateHero(hero);
 
         return "redirect:/heroes";
     }
+
 
 }
