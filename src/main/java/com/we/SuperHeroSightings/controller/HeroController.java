@@ -5,15 +5,15 @@ import com.we.SuperHeroSightings.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.beans.PropertyEditorSupport;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
+
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -51,18 +51,24 @@ public class HeroController {
         String name = request.getParameter("name");
         String type = request.getParameter("type");
         String description = request.getParameter("description");
-        String power = request.getParameter("powerId");
-        int powerId = Integer.parseInt(power);
+        String powerId = request.getParameter("powerID");
 
-        Power powerObject = powerDao.getPowerByID(powerId);
+        System.out.println("DEBUG : powerID is " + powerId );
 
         Hero hero = new Hero();
-        hero.setPower(powerObject);
+        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
+
+        hero.setDescription(description);
+        hero.setName(name);
+        hero.setType(type);
 
         heroDao.addHero(hero);
 
         return "redirect:/heroes";
     }
+
+
+
 
 
     @GetMapping("heroDetails")
@@ -98,16 +104,23 @@ public class HeroController {
     }
 
     @PostMapping("editHero")
-    public String performEditHero(Hero hero, HttpServletRequest request) {
-        int id = Integer.parseInt(request.getParameter("id"));
+    public String performEditHero(Integer id, HttpServletRequest request) {
+        List <Power> powers = powerDao.getAllPowers();
 
-        hero.setName(request.getParameter("name"));
-        hero.setType(request.getParameter("type"));
-        hero.setDescription(request.getParameter("description"));
+        String powerId = request.getParameter("powerID");
+        String description = request.getParameter("description");
+        String name = request.getParameter("name");
+        String type = request.getParameter("type");
+
+        Hero hero = heroDao.getHeroByID(id);
+        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
+        hero.setDescription(description);
+        hero.setName(name);
+        hero.setType(type);
 
         heroDao.updateHero(hero);
 
-
         return "redirect:/heroes";
     }
+
 }
