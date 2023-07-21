@@ -3,6 +3,8 @@ package com.we.SuperHeroSightings.controller;
 import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Organization;
+
+import com.we.SuperHeroSightings.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,28 +24,19 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-public class OrganizationController {
+public class
+OrganizationController {
     @Autowired
     HeroDao heroDao;
-
     @Autowired
-    LocationDao locationDao;
-
-    @Autowired
-    OrganizationDao organizationDao;
-
-    @Autowired
-    PowerDao powerDao;
-
-    @Autowired
-    SightingDao sightingDao;
+    OrganizationService organizationService;
 
     Set<ConstraintViolation<Organization>> violations = new HashSet<>();
 
     @GetMapping("organizations")
     public String displayOrganizations(Model model) {
         List<Hero> heroes = heroDao.getAllHeros();
-        List<Organization> organizations = organizationDao.getAllOrganizations();
+        List<Organization> organizations = organizationService.getAllOrganizations();
         model.addAttribute("organizations", organizations);
         model.addAttribute("heroes", heroes);
         model.addAttribute("errors", violations);
@@ -83,14 +76,14 @@ public class OrganizationController {
         violations = validate.validate(organization);
 
         if(violations.isEmpty()) {
-            organizationDao.addOrganization(organization);
+            organizationService.addOrganization(organization);
         }
         return "redirect:/organizations";
     }
 
     @GetMapping("organizationDetail")
     public String organizationDetail(Integer id, Model model) {
-        Organization organization = organizationDao.getOrganizationByID(id);
+        Organization organization = organizationService.getOrganizationByID(id);
         model.addAttribute("organization", organization);
         return "organizationDetail";
     }
@@ -99,14 +92,14 @@ public class OrganizationController {
     @GetMapping("deleteOrganization")
     public String deleteOrganization(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        organizationDao.deleteOrganizationByID(id);
+        organizationService.deleteOrganizationByID(id);
 
         return "redirect:/organizations";
     }
 
     @GetMapping("editOrganization")
     public String editCourse(Integer id, Model model) {
-        Organization organization = organizationDao.getOrganizationByID(id);
+        Organization organization = organizationService.getOrganizationByID(id);
         List<Hero> heroes = heroDao.getAllHeros();
 
         model.addAttribute("organization", organization);
@@ -146,7 +139,7 @@ public class OrganizationController {
         violations = validate.validate(organization);
 
         if(violations.isEmpty()) {
-            organizationDao.updateOrganization(organization);
+            organizationService.updateOrganization(organization);
         }
      //   organizationDao.updateOrganization(organization);
 
