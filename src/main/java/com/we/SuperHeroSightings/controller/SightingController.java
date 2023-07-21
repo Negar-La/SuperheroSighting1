@@ -101,6 +101,7 @@ public class SightingController {
         model.addAttribute("sighting", sighting);
         model.addAttribute("heroes", heroes);
         model.addAttribute("locations", locations);
+        model.addAttribute("errors", errors);
         return "editSighting";
     }
 
@@ -129,6 +130,7 @@ public class SightingController {
             model.addAttribute("sighting", sighting);
             model.addAttribute("heroes", heroes);
             model.addAttribute("locations", locations);
+            model.addAttribute("errors", errors);
             return "editSighting";
         }
 
