@@ -19,12 +19,11 @@ public class Hero {
     @NotBlank(message = "Hero name must not be empty.")
     @Size(max = 50, message = "First name must be less than 50 characters.")
     private String name;
-    @NotNull(message = "Type should not be null.")
     private String type;
     @NotBlank(message = "Description must not be empty.")
     @Size(max = 200, message = "Description must be less than 200 characters.")
     private String description;
-    @NotNull(message = "Power should not be null.")
+
     private Power power;
     private List<Organization> organizations;
 
