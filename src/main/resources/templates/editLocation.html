@@ -47,6 +47,11 @@
                     <div class="col-9">
                         <input type="text" name="name" id="name"
                                class="form-control" th:value="${location.name}"/>
+                        <div th:if="${#fields.hasErrors('location.name')}">
+                            <p th:each="error : ${#fields.errors('location.name')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Name Input </p>
+                        </div>
+
                     </div>
                 </div>
                 <div class="form-group row">
@@ -55,6 +60,10 @@
                     <div class="col-9">
                         <input type="text" name="description" id="description"
                                class="form-control"  th:value="${location.description}"/>
+                        <div th:if="${#fields.hasErrors('location.description')}">
+                            <p th:each="error : ${#fields.errors('location.description')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Description Input </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -62,7 +71,11 @@
                         address</label>
                     <div class="col-9">
                         <input type="text" name="address" id="address"
-                               class="form-control" th:value="${location.address}">
+                               class="form-control" th:value="${location.address}"/>
+                        <div th:if="${#fields.hasErrors('location.address')}">
+                            <p th:each="error : ${#fields.errors('location.address')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Address Input </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -70,7 +83,11 @@
                         Latitude</label>
                     <div class="col-9">
                         <input type="text" name="latitude" id="latitude"
-                               class="form-control" th:value="${location.latitude}">
+                               class="form-control" th:value="${location.latitude}"/>
+                        <div th:if="${#fields.hasErrors('location.latitude')}">
+                            <p th:each="error : ${#fields.errors('location.latitude')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Latitude Input </p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -78,7 +95,11 @@
                         Longitude</label>
                     <div class="col-9">
                         <input type="text" name="longitude" id="longitude"
-                               class="form-control" th:value="${location.longitude}">
+                               class="form-control" th:value="${location.longitude}"/>
+                        <div th:if="${#fields.hasErrors('location.longitude')}">
+                            <p th:each="error : ${#fields.errors('location.longitude')}" class="alert alert-danger"
+                               th:text="${error}"> Bad Longitude Input </p>
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" name="id" th:value="${location.id}"/>
