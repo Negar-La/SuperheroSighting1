@@ -8,11 +8,13 @@ import com.we.SuperHeroSightings.service.PowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.HashSet;
@@ -107,12 +109,22 @@ public class HeroController {
     }
 
     @PostMapping("editHero")
-    public String performEditHero(Hero hero, HttpServletRequest request) {
+    public String performEditHero(@Valid Hero hero, BindingResult result, HttpServletRequest request, Model model) {
         String powerId = request.getParameter("powerID");
 
         hero.setPower(powerService.getPowerByID(Integer.parseInt(powerId)));
 
-        heroService.updateHero(hero);
+        if(result.hasErrors()) {
+            model.addAttribute("powers", powerService.getAllPowers());
+            model.addAttribute("hero", hero);
+            return "editHero";
+        }
+
+        Validator validate = Validation.buildDefaultValidatorFactory().getValidator();
+        violations = validate.validate(hero);
+        if (violations.isEmpty()) {
+            heroService.updateHero(hero);
+        }
 
         return "redirect:/heroes";
     }
