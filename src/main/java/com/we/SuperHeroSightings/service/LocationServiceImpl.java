@@ -24,18 +24,7 @@ public class LocationServiceImpl implements LocationService{
 
     @Override
     public Location getLocationById(int id) {
-        //if data access exception is thrown, set to course not found
-        try {
             return locationDao.getLocationByID(id);
-        } catch (DataAccessException ex) {
-            Location lnf = new Location();
-            lnf.setName("Location Not Found");
-            lnf.setDescription("Location Not Found");
-            lnf.setAddress("Location Not Found");
-            lnf.setLatitude("Location Not Found");
-            lnf.setLongitude("Location Not Found");
-            return lnf;
-        }
     }
 
     @Override
