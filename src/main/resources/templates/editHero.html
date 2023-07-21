@@ -70,7 +70,7 @@
             <label for="power" class="col-3 col-form-label">
               Power</label>
             <div class="col-9">
-              <select id="power" name="power" class="form-control" >
+              <select id="power" name="powerID" class="form-control" >
                 <option th:each="power : ${powers}"
                         th:value="${power.id}"
                         th:text="${power.name}">
