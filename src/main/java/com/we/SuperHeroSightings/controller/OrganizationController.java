@@ -4,6 +4,7 @@ import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Organization;
 
+import com.we.SuperHeroSightings.service.HeroService;
 import com.we.SuperHeroSightings.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ import java.util.Set;
 public class
 OrganizationController {
     @Autowired
-    HeroDao heroDao;
+    HeroService heroService;
     @Autowired
     OrganizationService organizationService;
 
@@ -35,7 +36,7 @@ OrganizationController {
 
     @GetMapping("organizations")
     public String displayOrganizations(Model model) {
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Organization> organizations = organizationService.getAllOrganizations();
         model.addAttribute("organizations", organizations);
         model.addAttribute("heroes", heroes);
@@ -50,7 +51,7 @@ OrganizationController {
         List<Hero> heroes = new ArrayList<>();
         if(heroIds != null) {
             for(String heroId: heroIds) {
-                heroes.add(heroDao.getHeroByID(Integer.parseInt(heroId)));
+                heroes.add(heroService.getHeroByID(Integer.parseInt(heroId)));
             }
         }
 
@@ -98,7 +99,7 @@ OrganizationController {
     @GetMapping("editOrganization")
     public String editCourse(Integer id, Model model) {
         Organization organization = organizationService.getOrganizationByID(id);
-        List<Hero> heroes = heroDao.getAllHeros();
+        List<Hero> heroes = heroService.getAllHeros();
 
         model.addAttribute("organization", organization);
         model.addAttribute("heroes", heroes);
@@ -113,7 +114,7 @@ OrganizationController {
         List<Hero> heroes = new ArrayList<>();
         if(heroIds != null) {
             for(String heroId : heroIds) {
-                heroes.add(heroDao.getHeroByID(Integer.parseInt(heroId)));
+                heroes.add(heroService.getHeroByID(Integer.parseInt(heroId)));
             }
         }
         else {
@@ -124,7 +125,7 @@ OrganizationController {
         organization.setMembers(heroes);
 
         if(result.hasErrors()) {
-            model.addAttribute("heroes", heroDao.getAllHeros());
+            model.addAttribute("heroes", heroService.getAllHeros());
             model.addAttribute("organization", organization);
             return "editOrganization";
         }
