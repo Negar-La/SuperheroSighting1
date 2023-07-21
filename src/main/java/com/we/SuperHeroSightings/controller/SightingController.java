@@ -46,9 +46,9 @@ public class SightingController {
     }
     @GetMapping("index")
     public String displayTenSightings(Model model){
-        List<Sighting> sightings = sightingDao.getTenSightings();
+        List<Sighting> sightings = sightingService.getLastTenSightings();
         List<Hero> heroes = heroDao.getAllHeros();
-        List<Location> locations = locationDao.getAllLocations();
+        List<Location> locations = locationService.getAllLocations();
 
         model.addAttribute("sightings", sightings);
         model.addAttribute("heroes", heroes);

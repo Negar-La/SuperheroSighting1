@@ -4,6 +4,7 @@ import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.*;
 import com.we.SuperHeroSightings.service.HeroService;
 import com.we.SuperHeroSightings.service.LocationService;
+import com.we.SuperHeroSightings.service.OrganizationService;
 import com.we.SuperHeroSightings.service.PowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ public class HeroController {
 
     @Autowired
     OrganizationDao organizationDao;
+    @Autowired
     OrganizationService organizationService;
 
     @Autowired

@@ -5,10 +5,12 @@ import com.we.SuperHeroSightings.entities.Hero;
 import com.we.SuperHeroSightings.entities.Location;
 import com.we.SuperHeroSightings.entities.Sighting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class SightingServiceImpl implements SightingService{
 
     @Autowired
@@ -24,6 +26,10 @@ public class SightingServiceImpl implements SightingService{
         return sightingDao.getAllSightings();
     }
 
+    @Override
+    public List<Sighting> getLastTenSightings(){
+        return sightingDao.getTenSightings();
+    }
     @Override
     public Sighting addSighting(Sighting sighting) {
         return sightingDao.addSighting(sighting);

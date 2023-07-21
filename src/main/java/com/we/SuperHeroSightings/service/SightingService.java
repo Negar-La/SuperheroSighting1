@@ -10,6 +10,7 @@ import java.util.List;
 public interface SightingService {
     Sighting getSightingByID(int id);
     List<Sighting> getAllSightings();
+    List<Sighting> getLastTenSightings();
     Sighting addSighting(Sighting sighting);
     void updateSighting(Sighting sighting);
     void deleteSightingByID(int id);
