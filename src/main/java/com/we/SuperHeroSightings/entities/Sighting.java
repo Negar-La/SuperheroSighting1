@@ -18,11 +18,11 @@ public class Sighting {
     @NotBlank(message = "Description cannot be empty.")
     @Size(max = 255, message = "Description must be fewer than 255 characters")
     private String description;
-    @NotNull(message = "Date should not be null.")
+    @NotNull(message = "Invalid date.")
     private LocalDateTime date;
-    @NotNull(message = "Hero should not be null.")
+    @NotNull(message = "Invalid hero.")
     private Hero hero;
-    @NotNull(message = "Location should not be null.")
+    @NotNull(message = "Invalid location.")
     private Location location;
 
 
