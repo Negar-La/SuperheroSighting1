@@ -69,8 +69,6 @@ public class HeroController {
 
 
 
-
-
     @GetMapping("heroDetails")
     public String heroDetails(Integer id, Model model) {
         Hero hero = heroDao.getHeroByID(id);
