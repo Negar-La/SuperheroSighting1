@@ -36,67 +36,66 @@
             </div>
 
             <div class="row m-4 border border-dark">
-                <div class="col-3 text-center m-3">
-                    <span class="h3">Add Power</span>
+
+        <div class="col-12 m-1 text-center"
+             th:if="${!errors.isEmpty()}">
+            <p class="alert alert-danger" th:each="error : ${errors}"
+               th:text="${error.message}">Error message</p>
+        </div>
+
+        <div class="col-3 text-center m-3">
+            <span class="h3">Add Power</span>
+        </div>
+        <div class="col-7 text-center m-3">
+            <form action="addPower" method="POST">
+                <div class="form-group row">
+                    <label for="name" class="col-3 col-form-label">
+                        Power</label>
+                    <div class="col-9">
+                        <input type="text" name="name"
+                               id="name" class="form-control"/>
+                    </div>
                 </div>
 
-                
-                <form action="addPower" method="POST">
-                    <div class="form-group row">
-                        <label for="name" class="col-4 col-form-label">Power</label>
-                        <div class="col-9">
-                            <input type="text" name="name" id="name" class="form-control"
-                                   />
-                            <div th:if="${#fields.hasErrors('power.name')}">
-                                <p th:each="error : ${#fields.errors('power.name')}"
-                                   class="alert alert-danger" th:text="${error}">
-                                </p>
-                            </div>
-                        </div>
+             <div class="form-group row">
+                    <label for="Description" class="col-3 col-form-label">
+                        Description</label>
+                    <div class="col-9">
+                        <input type="text" name="Description"
+                               id="Description" class="form-control"/>
                     </div>
-
-                    <div class="form-group row">
-                        <label for="type" class="col-4 col-form-label">Description</label>
-                        <div class="col-9">
-                            <input type="text" name="description" id="description" class="form-control"
-                                   />
-                            <div th:if="${#fields.hasErrors('power.description')}">
-                                <p th:each="error : ${#fields.errors('power.description')}"
-                                   class="alert alert-danger" th:text="${error}">
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                </div>
 
 
-                    <button type="submit" class="btn btn-primary">Add Power</button>
-                </form>
-            </div>
-        </div>
-        <div class="row m-4 border border-dark">
-
-            <div class="col text-center m-3">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Power</th>
-                            <th>Description</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="power : ${powers}">
-                            <td th:text="${power.id}">ID</td>
-                            <td th:text="${power.name}">Power</td>
-                            <td th:text="${power.description}"> Description</td>
-
-                            <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
-                            <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        
+                <button type="submit" class="btn btn-primary">Add Power</button>
+            </form>
         </div>
     </div>
+                <div class="row m-4 border border-dark">
+
+                    <div class="col text-center m-3">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Power</th>
+                                    <th>Description</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="power : ${powers}">
+                                    <td th:text="${power.id}">ID</td>
+                                    <td th:text="${power.name}">Power</td>
+                                    <td th:text="${power.description}"> Description</td>
+
+                                    <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
+                                    <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
