@@ -17,89 +17,86 @@
                 </div>
             </div>
             <div class="row m-4 border border-dark">
-           
-                    <div class="col text-center m-3">
-                        <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
-                    </div>
-                    <div class="col text-center m-3">
-                        <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
-                    </div>
-                    <div class="col text-center m-3">
-                        <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
-                    </div>
-                    <div class="col text-center m-3">
-                        <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
-                    </div>
-                    <div class="col text-center m-3">
-                        <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
-                    </div>
+
+                <div class="col text-center m-3">
+                    <a href="heroes" class="btn btn-outline-primary btn-lg">Heroes</a>
                 </div>
-
-                <div class="row m-4 border border-dark">
-
-
-
-                    <div class="col-3 text-center m-3">
-                        <span class="h3">Add Power</span>
-                    </div>
-
-                    <div class="col-7 text-center m-3">
-                        <form action="addPower" method="POST">
-                            <div class="form-group row">
-                                <label for="name" class="col-3 col-form-label">Power</label>
-                                <div class="col-9">
-                                    <input type="text" name="name" id="name" class="form-control"
-                                           th:value="${power.name}" />
-                                    <div th:if="${#fields.hasErrors('power.name')}">
-                                        <p th:each="error : ${#fields.errors('power.name')}"
-                                           class="alert alert-danger" th:text="${error}">
-                                            Error: Name Cannot be blank! </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="description" class="col-3 col-form-label">Description</label>
-                                <div class="col-9">
-                                    <input type="text" name="description" id="description" class="form-control"
-                                           th:value="${power.description}" />
-                                    <div th:if="${#fields.hasErrors('power.description')}">
-                                        <p th:each="error : ${#fields.errors('power.description')}"
-                                           class="alert alert-danger" th:text="${error}">
-                                            Error: Description Cannot be Blank! </p>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <button type="submit" class="btn btn-primary">Add Power</button>
-                        </form>
-                    </div>
+                <div class="col text-center m-3">
+                    <a href="powers" class="btn btn-outline-primary btn-lg">Powers</a>
                 </div>
-                <div class="row m-4 border border-dark">
-
-                    <div class="col text-center m-3">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Power</th>
-                                    <th>Description</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="power : ${powers}">
-                                    <td th:text="${power.id}">ID</td>
-                                    <td th:text="${power.name}">Power</td>
-                                    <td th:text="${power.description}"> Description</td>
-
-                                    <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
-                                    <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="col text-center m-3">
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
                 </div>
             </div>
+
+            <div class="row m-4 border border-dark">
+                <div class="col-3 text-center m-3">
+                    <span class="h3">Add Power</span>
+                </div>
+
+                
+                <form action="addPower" method="POST">
+                    <div class="form-group row">
+                        <label for="name" class="col-4 col-form-label">Power</label>
+                        <div class="col-9">
+                            <input type="text" name="name" id="name" class="form-control"
+                                   />
+                            <div th:if="${#fields.hasErrors('power.name')}">
+                                <p th:each="error : ${#fields.errors('power.name')}"
+                                   class="alert alert-danger" th:text="${error}">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="type" class="col-4 col-form-label">Description</label>
+                        <div class="col-9">
+                            <input type="text" name="description" id="description" class="form-control"
+                                   />
+                            <div th:if="${#fields.hasErrors('power.description')}">
+                                <p th:each="error : ${#fields.errors('power.description')}"
+                                   class="alert alert-danger" th:text="${error}">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Add Power</button>
+                </form>
+            </div>
+        </div>
+        <div class="row m-4 border border-dark">
+
+            <div class="col text-center m-3">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Power</th>
+                            <th>Description</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="power : ${powers}">
+                            <td th:text="${power.id}">ID</td>
+                            <td th:text="${power.name}">Power</td>
+                            <td th:text="${power.description}"> Description</td>
+
+                            <td><a href="#" th:href="@{/editPower(id=${power.id})}">Edit</a></td>
+                            <td><a href="#" th:href="@{/deletePower(id=${power.id})}">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

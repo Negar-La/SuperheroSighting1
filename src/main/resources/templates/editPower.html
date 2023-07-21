@@ -49,7 +49,7 @@
                             <div th:if="${#fields.hasErrors('power.name')}">
                                 <p th:each="error : ${#fields.errors('power.name')}"
                                    class="alert alert-danger" th:text="${error}">
-                                    Error: Name Cannot be blank! </p>
+                                   </p>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                             <div th:if="${#fields.hasErrors('power.description')}">
                                 <p th:each="error : ${#fields.errors('power.description')}"
                                    class="alert alert-danger" th:text="${error}">
-                                    Error: Description Cannot be Blank! </p>
+                                   </p>
                             </div>
                         </div>
                     </div>
