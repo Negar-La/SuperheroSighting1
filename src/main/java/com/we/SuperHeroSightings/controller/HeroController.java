@@ -2,9 +2,7 @@ package com.we.SuperHeroSightings.controller;
 
 import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.*;
-import com.we.SuperHeroSightings.service.HeroService;
-import com.we.SuperHeroSightings.service.LocationService;
-import com.we.SuperHeroSightings.service.PowerService;
+import com.we.SuperHeroSightings.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,27 +16,19 @@ import java.util.List;
 public class HeroController {
 
     @Autowired
-    HeroDao heroDao;
     HeroService heroService;
 
     @Autowired
-    LocationDao locationDao;
-    LocationService locationService;
-
-    @Autowired
-    OrganizationDao organizationDao;
     OrganizationService organizationService;
 
     @Autowired
-    PowerDao powerDao;
     PowerService powerService;
 
-    @Autowired
-    SightingDao sightingDao;
+
 
     @GetMapping("heroes")
     public String displayHeroes(Model model) {
-        List<Hero> heroes = heroService.getAllHeroes();
+        List<Hero> heroes = heroService.getAllHeros();
         List<Power> powers = powerService.getAllPowers();
         List<Organization> organizations = organizationService.getAllOrganizations();
         model.addAttribute("heroes", heroes);

@@ -20,32 +20,38 @@ public class HeroServiceImpl implements HeroService {
 
     @Override
     public Hero getHeroByID(int id) {
+
         return heroDao.getHeroByID(id);
     }
 
     @Override
-    public List<Hero> getAllHeroes() {
+    public List<Hero> getAllHeros() {
+
         return heroDao.getAllHeros();
     }
 
     @Override
     @Transactional
     public Hero addHero(Hero hero) {
+
         return heroDao.addHero(hero);
     }
 
     @Override
     public void updateHero(Hero hero) {
+
         heroDao.updateHero(hero);
     }
 
     @Override
     public void deleteHeroByID(int id) {
+
         heroDao.deleteHeroByID(id);
     }
 
     @Override
     public List<Hero> getHeroesByLocation(Location location) {
+
         return heroDao.getHerosByLocation(location);
     }
 

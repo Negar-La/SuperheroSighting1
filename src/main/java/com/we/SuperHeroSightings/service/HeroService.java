@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface HeroService {
     Hero getHeroByID(int id);
-    List<Hero> getAllHeroes();
+    List<Hero> getAllHeros();
     Hero addHero(Hero hero);
     public void updateHero(Hero hero);
 
