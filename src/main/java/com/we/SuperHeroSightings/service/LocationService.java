@@ -10,6 +10,4 @@ public interface LocationService {
     Location getLocationById(int id);
     Location updateLocationData(Location location);
     public void deleteLocation(int id);
-
-
 }
