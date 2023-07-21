@@ -2,6 +2,9 @@ package com.we.SuperHeroSightings.controller;
 
 import com.we.SuperHeroSightings.dao.*;
 import com.we.SuperHeroSightings.entities.*;
+import com.we.SuperHeroSightings.service.HeroService;
+import com.we.SuperHeroSightings.service.LocationService;
+import com.we.SuperHeroSightings.service.PowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,24 +19,28 @@ public class HeroController {
 
     @Autowired
     HeroDao heroDao;
+    HeroService heroService;
 
     @Autowired
     LocationDao locationDao;
+    LocationService locationService;
 
     @Autowired
     OrganizationDao organizationDao;
+    OrganizationService organizationService;
 
     @Autowired
     PowerDao powerDao;
+    PowerService powerService;
 
     @Autowired
     SightingDao sightingDao;
 
     @GetMapping("heroes")
     public String displayHeroes(Model model) {
-        List<Hero> heroes = heroDao.getAllHeros();
-        List<Power> powers = powerDao.getAllPowers();
-        List<Organization> organizations = organizationDao.getAllOrganizations();
+        List<Hero> heroes = heroService.getAllHeroes();
+        List<Power> powers = powerService.getAllPowers();
+        List<Organization> organizations = organizationService.getAllOrganizations();
         model.addAttribute("heroes", heroes);
         model.addAttribute("powers", powers);
         model.addAttribute("organizations", organizations);
@@ -49,13 +56,13 @@ public class HeroController {
         String powerId = request.getParameter("powerID");
 
         Hero hero = new Hero();
-        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
+        hero.setPower(powerService.getPowerByID(Integer.parseInt(powerId)));
 
         hero.setDescription(description);
         hero.setName(name);
         hero.setType(type);
 
-        heroDao.addHero(hero);
+        heroService.addHero(hero);
 
         return "redirect:/heroes";
     }
@@ -64,7 +71,7 @@ public class HeroController {
 
     @GetMapping("heroDetails")
     public String heroDetails(Integer id, Model model) {
-        Hero hero = heroDao.getHeroByID(id);
+        Hero hero = heroService.getHeroByID(id);
         model.addAttribute("hero", hero);
         return "heroDetails";
     }
@@ -74,7 +81,7 @@ public class HeroController {
     public String deleteHero(HttpServletRequest request) {
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            heroDao.deleteHeroByID(id);
+            heroService.deleteHeroByID(id);
             return "redirect:/heroes";
         } catch (Exception ex) {
 
@@ -85,9 +92,9 @@ public class HeroController {
     @GetMapping("editHero")
     public String editHero(HttpServletRequest request, Model model) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Hero hero = heroDao.getHeroByID(id);
+        Hero hero = heroService.getHeroByID(id);
 
-        List<Power> powers = powerDao.getAllPowers();
+        List<Power> powers = powerService.getAllPowers();
         model.addAttribute("hero", hero);
         model.addAttribute("powers", powers);
 
@@ -97,16 +104,10 @@ public class HeroController {
     @PostMapping("editHero")
     public String performEditHero(Hero hero, HttpServletRequest request) {
         String powerId = request.getParameter("powerID");
-//        String description = request.getParameter("description");
-//        String name = request.getParameter("name");
-//        String type = request.getParameter("type");
 
-        hero.setPower(powerDao.getPowerByID(Integer.parseInt(powerId)));
-//        hero.setDescription(description);
-//        hero.setName(name);
-//        hero.setType(type);
+        hero.setPower(powerService.getPowerByID(Integer.parseInt(powerId)));
 
-        heroDao.updateHero(hero);
+        heroService.updateHero(hero);
 
         return "redirect:/heroes";
     }
