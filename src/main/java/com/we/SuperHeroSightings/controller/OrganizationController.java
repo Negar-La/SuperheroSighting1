@@ -99,7 +99,12 @@ OrganizationController {
     public String editCourse(Integer id, Model model) {
         Organization organization = organizationService.getOrganizationByID(id);
         List<Hero> heroes = heroService.getAllHeros();
-
+    //Need to setPower and setOrganizations to null so they match the members from getOrganizationByID()
+        //so "${organization.members.contains(hero)}" will work!
+        for(Hero hero: heroes) {
+            hero.setOrganizations(null);
+            hero.setPower(null);
+        }
         model.addAttribute("organization", organization);
         model.addAttribute("heroes", heroes);
         return "editOrganization";
